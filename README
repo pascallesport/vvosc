@@ -1,0 +1,12 @@
+VVOSC is an Objective-c framework for assembling, sending, and receiving OSC (Open Sound Control) messages on OS X.  A simple sample application which sends and receives OSC messages is also included.
+
+more information on OSC:
+http://opensoundcontrol.org/
+
+VVOSC is licensed under a Creative Commons Attribution-Noncommercial-Share Alike license:
+
+http://creativecommons.org/licenses/by-nc-sa/3.0/us/
+
+Permissions beyond the scope of this license may be available by contacting the author:
+
+ray@vidvox.net
