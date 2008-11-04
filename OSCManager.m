@@ -21,6 +21,7 @@
 	
 	inPortArray = [[NSMutableArray arrayWithCapacity:0] retain];
 	outPortArray = [[NSMutableArray arrayWithCapacity:0] retain];
+	delegate = nil;
 	
 	pthread_rwlockattr_init(&attr);
 	pthread_rwlockattr_setpshared(&attr, PTHREAD_PROCESS_SHARED);
@@ -39,6 +40,7 @@
 	if (outPortArray != nil)
 		[outPortArray release];
 	outPortArray = nil;
+	delegate = nil;
 	[super dealloc];
 }
 
@@ -58,6 +60,7 @@
 		if (!foundConflict)	{
 			returnMe = [[[[self inPortClass] alloc] initWithPort:p] autorelease];
 			if (returnMe != nil)	{
+				[returnMe setDelegate:self];
 				[returnMe start];
 				[inPortArray addObject:returnMe];
 			}
@@ -92,6 +95,26 @@
 	pthread_rwlock_unlock(&outPortLock);
 	
 	return returnMe;
+}
+
+/*
+	important: this method will be called from any of a number of threads- each port is in its own thread!
+	
+	typically, the manager is the input port's delegate- input ports tell delegates
+	when they receive data.  by default, the manager is the input port's delegate- so
+	this method will be called by default if your input port doesn't have another delegate.
+	as such, this method tells the manager's delegate about any received osc messages.
+*/
+- (void) oscMessageReceived:(NSDictionary *)d	{
+	if ((delegate != nil) && ([delegate respondsToSelector:@selector(oscMessageReceived:)]))
+		[delegate oscMessageReceived:d];
+}
+
+- (id) delegate	{
+	return delegate;
+}
+- (void) setDelegate:(id)n	{
+	delegate = n;
 }
 
 /*

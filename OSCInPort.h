@@ -22,6 +22,10 @@
 - (void) oscMessageReceived:(NSDictionary *)d;
 @end
 
+@protocol OSCDelegateProtocol
+- (void) oscMessageReceived:(NSDictionary *)d;
+@end
+
 
 @interface OSCInPort : NSObject {
 	BOOL					deleted;	//	whether or not i'm deleted- ensures that socket gets closed
@@ -59,6 +63,7 @@
 - (void) setPort:(short)n;
 - (BOOL) bound;
 
+- (id) delegate;
 - (void) setDelegate:(id)n;
 
 @end

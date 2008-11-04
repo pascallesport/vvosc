@@ -87,10 +87,18 @@
 	
 	pthread_rwlock_t		inPortLock;
 	pthread_rwlock_t		outPortLock;
+	
+	id						delegate;
 }
 
 - (OSCInPort *) createNewInputForPort:(int)p;
 - (OSCOutPort *) createNewOutputToAddress:(NSString *)a atPort:(int)p;
+
+//	typically, the manager is the input port's delegate- input ports tell delegates when they receive data
+- (void) oscMessageReceived:(NSDictionary *)d;
+
+- (id) delegate;
+- (void) setDelegate:(id)n;
 
 - (id) inPortClass;
 - (id) outPortClass;

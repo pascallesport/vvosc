@@ -291,6 +291,9 @@
 - (BOOL) bound	{
 	return bound;
 }
+- (id) delegate	{
+	return delegate;
+}
 - (void) setDelegate:(id)n	{
 	delegate = n;
 }

@@ -31,7 +31,9 @@
 
 - (BOOL) createSocket;
 
-- (void) sendThisPacket:(OSCPacket *)b;
+- (void) sendThisBundle:(OSCBundle *)b;
+- (void) sendThisMessage:(OSCMessage *)m;
+- (void) sendThisPacket:(OSCPacket *)p;
 
 - (void) setAddressString:(NSString *)n;
 - (void) setPort:(short)p;

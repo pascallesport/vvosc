@@ -68,6 +68,24 @@
 	return YES;
 }
 
+- (void) sendThisBundle:(OSCBundle *)b	{
+	if ((deleted) || (sock == -1) || (b == nil))
+		return;
+	
+	OSCPacket		*newPacket = [OSCPacket createWithContent:b];
+	
+	if (newPacket != nil)
+		[self sendThisPacket:newPacket];
+}
+- (void) sendThisMessage:(OSCMessage *)m	{
+	if ((deleted) || (sock == -1) || (m == nil))
+		return;
+	
+	OSCPacket		*newPacket = [OSCPacket createWithContent:m];
+	
+	if (newPacket != nil)
+		[self sendThisPacket:newPacket];
+}
 - (void) sendThisPacket:(OSCPacket *)p	{
 	//NSLog(@"OSCOutPort:sendThisPacket:");
 	if ((deleted) || (sock == -1) || (p == nil))

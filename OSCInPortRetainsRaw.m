@@ -27,7 +27,8 @@
 }
 /*
 	this formats a bunch of strings based on the raw data, stores them,
-	then lets the super do it's thing
+	then lets the super do it's thing.  the strings it formats are used
+	for displaying the raw OSC data which has been received.
 */
 - (void) parseRawBuffer:(unsigned char *)b ofMaxLength:(int)l	{
 	NSMutableDictionary		*mutDict = [NSMutableDictionary dictionaryWithCapacity:0];
