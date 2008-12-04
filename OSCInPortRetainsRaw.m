@@ -101,6 +101,12 @@
 - (NSMutableArray *) packetStringArray	{
 	return packetStringArray;
 }
+- (void) setPacketStringArray:(NSArray *)a	{
+	[packetStringArray removeAllObjects];
+	if ((a != nil) && ([a count] > 0))	{
+		[packetStringArray addObjectsFromArray:a];
+	}
+}
 
 
 @end

@@ -127,6 +127,13 @@
 - (IBAction) displayTypeMatrixUsed:(id)sender	{
 	[self displayPackets];
 }
+//	called when the user clicks the "clear" button
+- (IBAction) clearButtonUsed:(id)sender	{
+	if (inPort != nil)	{
+		[(OSCInPortRetainsRaw *)inPort setPacketStringArray:nil];
+		[self displayPackets];
+	}
+}
 
 - (IBAction) intTest:(id)sender	{
 	NSLog(@"AppController:intTest:");

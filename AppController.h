@@ -42,6 +42,8 @@
 - (IBAction) valueFieldUsed:(id)sender;
 //	called when user changes display mode
 - (IBAction) displayTypeMatrixUsed:(id)sender;
+//	called when the user clicks the "clear" button
+- (IBAction) clearButtonUsed:(id)sender;
 
 - (IBAction) intTest:(id)sender;
 - (IBAction) floatTest:(id)sender;

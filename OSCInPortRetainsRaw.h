@@ -24,5 +24,6 @@
 
 - (void) parseRawBuffer:(unsigned char *)b ofMaxLength:(int)l;
 - (NSMutableArray *) packetStringArray;
+- (void) setPacketStringArray:(NSArray *)a;
 
 @end
