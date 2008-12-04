@@ -14,6 +14,9 @@
 @implementation OSCOutPort
 
 
+- (NSString *) description	{
+	return [NSString stringWithFormat:@"<OSCOutPort %@:%ld>",addressString,port];
+}
 + (id) createWithAddress:(NSString *)a andPort:(short)p	{
 	OSCOutPort		*returnMe = [[OSCOutPort alloc] initWithAddress:a andPort:p];
 	if (returnMe == nil)
@@ -42,7 +45,7 @@
 	return self;
 }
 - (void) dealloc	{
-	NSLog(@"OSCOutPort:dealloc:");
+	//NSLog(@"OSCOutPort:dealloc:");
 	if (!deleted)
 		[self prepareToBeDeleted];
 	if (addressString != nil)

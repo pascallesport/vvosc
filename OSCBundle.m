@@ -76,6 +76,17 @@
 		return;
 	[elementArray addObject:n];
 }
+- (void) addElementArray:(NSArray *)a	{
+	if ((a==nil) || ([a count]<1))
+		return;
+	NSEnumerator		*it = [a objectEnumerator];
+	id					anObj;
+	while (anObj = [it nextObject])	{
+		if (([anObj isKindOfClass:[OSCBundle class]]) || ([anObj isKindOfClass:[OSCMessage class]]))	{
+			[elementArray addObject:anObj];
+		}
+	}
+}
 
 - (int) bufferLength	{
 	int				totalSize = 0;

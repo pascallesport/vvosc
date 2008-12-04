@@ -14,6 +14,9 @@
 @implementation OSCInPort
 
 
+- (NSString *) description	{
+	return [NSString stringWithFormat:@"<OSCInPort: %ld>",port];
+}
 + (id) createWithPort:(short)p	{
 	OSCInPort		*returnMe = [[OSCInPort alloc] initWithPort:p];
 	if (returnMe == nil)
@@ -96,7 +99,7 @@
 	running = NO;
 	busy = YES;
 	while (threadTimer != nil)	{
-		NSLog(@"\t\twaiting for OSC thread to stop...");
+		//NSLog(@"\t\twaiting for OSC thread to stop...");
 		usleep(1000);
 	}
 }

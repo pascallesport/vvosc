@@ -92,7 +92,11 @@
 }
 
 - (OSCInPort *) createNewInputForPort:(int)p;
+- (OSCInPort *) createNewInput;
 - (OSCOutPort *) createNewOutputToAddress:(NSString *)a atPort:(int)p;
+- (OSCOutPort *) createNewOutput;
+- (void) deleteAllInputs;
+- (void) deleteAllOutputs;
 
 //	typically, the manager is the input port's delegate- input ports tell delegates when they receive data
 - (void) oscMessageReceived:(NSDictionary *)d;
@@ -102,5 +106,8 @@
 
 - (id) inPortClass;
 - (id) outPortClass;
+
+- (NSMutableArray *) inPortArray;
+- (NSMutableArray *) outPortArray;
 
 @end

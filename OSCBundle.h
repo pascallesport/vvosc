@@ -21,6 +21,7 @@
 + (id) create;
 
 - (void) addElement:(id)n;
+- (void) addElementArray:(NSArray *)a;
 
 - (int) bufferLength;
 - (void) writeToBuffer:(unsigned char *)b;

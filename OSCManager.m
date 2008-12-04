@@ -70,6 +70,18 @@
 	return returnMe;
 }
 
+- (OSCInPort *) createNewInput	{
+	OSCInPort		*portPtr = nil;
+	int				portIndex = 1234;
+	
+	while (portPtr == nil)	{
+		portPtr = [self createNewInputForPort:portIndex];
+		++portIndex;
+	}
+	
+	return portPtr;
+}
+
 - (OSCOutPort *) createNewOutputToAddress:(NSString *)a atPort:(int)p	{
 	if ((a == nil) || (p < 1024))
 		return nil;
@@ -95,6 +107,35 @@
 	pthread_rwlock_unlock(&outPortLock);
 	
 	return returnMe;
+}
+
+- (OSCOutPort *) createNewOutput	{
+	OSCOutPort		*portPtr = nil;
+	int				portIndex = 1234;
+	
+	while (portPtr == nil)	{
+		portPtr = [self createNewOutputToAddress:@"127.0.0.1" atPort:portIndex];
+		++portIndex;
+	}
+	
+	return portPtr;
+}
+
+- (void) deleteAllInputs	{
+	pthread_rwlock_wrlock(&inPortLock);
+	
+		[inPortArray makeObjectsPerformSelector:@selector(prepareToBeDeleted)];
+		[inPortArray removeAllObjects];
+	
+	pthread_rwlock_unlock(&inPortLock);
+}
+- (void) deleteAllOutputs	{
+	pthread_rwlock_wrlock(&outPortLock);
+	
+		[outPortArray makeObjectsPerformSelector:@selector(prepareToBeDeleted)];
+		[outPortArray removeAllObjects];
+	
+	pthread_rwlock_unlock(&outPortLock);
 }
 
 /*
@@ -126,6 +167,13 @@
 }
 - (id) outPortClass	{
 	return [OSCOutPort class];
+}
+
+- (NSMutableArray *) inPortArray	{
+	return inPortArray;
+}
+- (NSMutableArray *) outPortArray	{
+	return outPortArray;
 }
 
 
