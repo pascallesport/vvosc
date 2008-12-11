@@ -14,7 +14,7 @@
 @interface AppController : NSObject {
 	OSCManager					*manager;
 	OSCInPort					*inPort;
-	OSCOutPort					*outPort;
+	OSCOutPort					*manualOutPort;	//	this is the port that will actually be sending the data
 	
 	IBOutlet NSTextField		*receivingAddressField;
 	IBOutlet NSTextView			*receivingTextView;
@@ -31,10 +31,15 @@
 	IBOutlet NSTextField		*stringField;
 	
 	IBOutlet NSMatrix			*displayTypeRadioGroup;
+	
+	IBOutlet NSPopUpButton		*outputDestinationButton;
 }
 
 - (void) oscMessageReceived:(NSDictionary *)d;
 - (void) displayPackets;
+
+- (void) oscOutputsChangedNotification:(NSNotification *)note;
+- (IBAction) outputDestinationButtonUsed:(id)sender;
 
 //	called when IP address or port field is used
 - (IBAction) setupFieldUsed:(id)sender;

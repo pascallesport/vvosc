@@ -23,8 +23,19 @@
 		return nil;
 	return [returnMe autorelease];
 }
++ (id) createWithAddress:(NSString *)a andPort:(short)p labelled:(NSString *)l	{
+	OSCOutPort		*returnMe = [[OSCOutPort alloc] initWithAddress:a andPort:p labelled:l];
+	if (returnMe == nil)
+		return nil;
+	return [returnMe autorelease];
+}
+
+
 - (id) initWithAddress:(NSString *)a andPort:(short)p	{
-	if ((a == nil) || (p < 1024))	{
+	return [self initWithAddress:a andPort:p labelled:nil];
+}
+- (id) initWithAddress:(NSString *)a andPort:(short)p labelled:(NSString *)l	{
+	if ((a==nil) || (p<1024))	{
 		[self release];
 		return nil;
 	}
@@ -35,6 +46,10 @@
 	sock = -1;
 	port = p;
 	addressString = [a retain];
+	portLabel = nil;
+	
+	if (l != nil)
+		portLabel = [l copy];
 	
 	//	if i can't make a socket, return nil
 	if (![self createSocket])	{
@@ -51,10 +66,29 @@
 	if (addressString != nil)
 		[addressString release];
 	addressString = nil;
+	if (portLabel != nil)
+		[portLabel release];
+	portLabel = nil;
 	[super dealloc];
 }
 - (void) prepareToBeDeleted	{
 	deleted = YES;
+}
+
+- (NSDictionary *) createSnapshot	{
+	NSMutableDictionary		*returnMe = [NSMutableDictionary dictionaryWithCapacity:0];
+	
+	if (addressString != nil)	{
+		[returnMe setObject:addressString forKey:@"address"];
+	}
+	
+	[returnMe setObject:[NSNumber numberWithInt:port] forKey:@"port"];
+	
+	if (portLabel != nil)	{
+		[returnMe setObject:portLabel forKey:@"portLabel"];
+	}
+	
+	return returnMe;
 }
 
 - (BOOL) createSocket	{
@@ -145,6 +179,19 @@
 	addressString = [n retain];
 	port = p;
 	[self createSocket];
+}
+
+- (NSString *) portLabel	{
+	return portLabel;
+}
+- (void) setPortLabel:(NSString *)n	{
+	if (portLabel != nil)	{
+		[portLabel release];
+	}
+	portLabel = nil;
+	if (n != nil)	{
+		portLabel = [n retain];
+	}
 }
 
 - (short) port	{

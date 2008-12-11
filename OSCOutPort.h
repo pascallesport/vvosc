@@ -23,11 +23,16 @@
 	struct sockaddr_in		addr;
 	short					port;
 	NSString				*addressString;
+	NSString				*portLabel;	//	used it to distinguish between multiple osc outputs
 }
 
 + (id) createWithAddress:(NSString *)a andPort:(short)p;
++ (id) createWithAddress:(NSString *)a andPort:(short)p labelled:(NSString *)l;
 - (id) initWithAddress:(NSString *)a andPort:(short)p;
+- (id) initWithAddress:(NSString *)a andPort:(short)p labelled:(NSString *)l;
 - (void) prepareToBeDeleted;
+
+- (NSDictionary *) createSnapshot;
 
 - (BOOL) createSocket;
 
@@ -38,6 +43,9 @@
 - (void) setAddressString:(NSString *)n;
 - (void) setPort:(short)p;
 - (void) setAddressString:(NSString *)n andPort:(short)p;
+
+- (NSString *) portLabel;
+- (void) setPortLabel:(NSString *)n;
 
 - (short) port;
 - (NSString *) addressString;

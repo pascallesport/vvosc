@@ -42,13 +42,22 @@
 	int						threadTimerCount;
 	NSAutoreleasePool		*threadPool;
 	
+	NSString				*portLabel;	//	the "name" of the port (added to distinguish multiple osc input ports for bonjour)
+	NSNetService			*zeroConfDest;	//	bonjour service for publishing this input's address...only active if there's a portLabel!
+	
 	NSMutableDictionary		*scratchDict;	//	key of dict is address port; object at key is a mut. array
 	id						delegate;	//	my delegate gets notified of incoming messages
 }
 
 + (id) createWithPort:(short)p;
++ (id) createWithPort:(short)p labelled:(NSString *)n;
 - (id) initWithPort:(short)p;
+- (id) initWithPort:(short)p labelled:(NSString *)n;
+
 - (void) prepareToBeDeleted;
+
+- (NSDictionary *) createSnapshot;
+
 - (BOOL) createSocket;
 - (void) start;
 - (void) stop;
@@ -61,6 +70,8 @@
 
 - (short) port;
 - (void) setPort:(short)n;
+- (NSString *) portLabel;
+- (void) setPortLabel:(NSString *)n;
 - (BOOL) bound;
 
 - (id) delegate;

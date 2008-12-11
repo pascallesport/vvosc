@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "OSCZeroConfManager.h"
 #import "OSCInPort.h"
 #import "OSCOutPort.h"
 #import <pthread.h>
@@ -89,24 +90,45 @@
 	pthread_rwlock_t		outPortLock;
 	
 	id						delegate;
+	
+	OSCZeroConfManager		*zeroConfManager;	//	bonjour/zero-configuration manager
 }
 
-- (OSCInPort *) createNewInputForPort:(int)p;
-- (OSCInPort *) createNewInput;
-- (OSCOutPort *) createNewOutputToAddress:(NSString *)a atPort:(int)p;
-- (OSCOutPort *) createNewOutput;
 - (void) deleteAllInputs;
 - (void) deleteAllOutputs;
+//	methods for creating input ports
+- (OSCInPort *) createNewInputFromSnapshot:(NSDictionary *)s;
+- (OSCInPort *) createNewInputForPort:(int)p withLabel:(NSString *)l;
+- (OSCInPort *) createNewInputForPort:(int)p;
+- (OSCInPort *) createNewInput;
+//	methods for creating output ports
+- (OSCOutPort *) createNewOutputFromSnapshot:(NSDictionary *)s;
+- (OSCOutPort *) createNewOutputToAddress:(NSString *)a atPort:(int)p withLabel:(NSString *)l;
+- (OSCOutPort *) createNewOutputToAddress:(NSString *)a atPort:(int)p;
+- (OSCOutPort *) createNewOutput;
 
 //	typically, the manager is the input port's delegate- input ports tell delegates when they receive data
 - (void) oscMessageReceived:(NSDictionary *)d;
 
-- (id) delegate;
-- (void) setDelegate:(id)n;
+//	methods for working with ports
+- (NSString *) getUniqueInputLabel;
+- (NSString *) getUniqueOutputLabel;
+- (OSCInPort *) findInputWithLabel:(NSString *)n;
+- (OSCOutPort *) findOutputWithLabel:(NSString *)n;
+- (OSCOutPort *) findOutputWithAddress:(NSString *)a andPort:(int)p;
+- (OSCOutPort *) findOutputForIndex:(int)i;
+- (void) removeInput:(id)p;
+- (void) removeOutput:(id)p;
+- (NSArray *) outPortLabelArray;
 
+//	subclassable methods for customizing
 - (id) inPortClass;
+- (NSString *) inPortLabelBase;
 - (id) outPortClass;
 
+//	misc
+- (id) delegate;
+- (void) setDelegate:(id)n;
 - (NSMutableArray *) inPortArray;
 - (NSMutableArray *) outPortArray;
 

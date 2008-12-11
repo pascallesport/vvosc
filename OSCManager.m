@@ -28,10 +28,16 @@
 	pthread_rwlock_init(&inPortLock, &attr);
 	pthread_rwlock_init(&outPortLock, &attr);
 	
+	zeroConfManager = [[OSCZeroConfManager alloc] initWithOSCManager:self];
+	
 	return self;
 }
 
 - (void) dealloc	{
+	if (zeroConfManager != nil)	{
+		[zeroConfManager release];
+		zeroConfManager = nil;
+	}
 	pthread_rwlock_destroy(&inPortLock);
 	pthread_rwlock_destroy(&outPortLock);
 	if (inPortArray != nil)
@@ -42,83 +48,6 @@
 	outPortArray = nil;
 	delegate = nil;
 	[super dealloc];
-}
-
-- (OSCInPort *) createNewInputForPort:(int)p	{
-	OSCInPort			*returnMe = nil;
-	NSEnumerator		*it;
-	OSCInPort			*portPtr;
-	BOOL				foundConflict = NO;
-	
-	pthread_rwlock_wrlock(&inPortLock);
-		it = [inPortArray objectEnumerator];
-		while ((portPtr = [it nextObject]) && (!foundConflict))	{
-			if ([portPtr port] == p)
-				foundConflict = YES;
-		}
-		
-		if (!foundConflict)	{
-			returnMe = [[[[self inPortClass] alloc] initWithPort:p] autorelease];
-			if (returnMe != nil)	{
-				[returnMe setDelegate:self];
-				[returnMe start];
-				[inPortArray addObject:returnMe];
-			}
-		}
-	pthread_rwlock_unlock(&inPortLock);
-	
-	return returnMe;
-}
-
-- (OSCInPort *) createNewInput	{
-	OSCInPort		*portPtr = nil;
-	int				portIndex = 1234;
-	
-	while (portPtr == nil)	{
-		portPtr = [self createNewInputForPort:portIndex];
-		++portIndex;
-	}
-	
-	return portPtr;
-}
-
-- (OSCOutPort *) createNewOutputToAddress:(NSString *)a atPort:(int)p	{
-	if ((a == nil) || (p < 1024))
-		return nil;
-	
-	OSCOutPort			*returnMe = nil;
-	NSEnumerator		*it;
-	OSCOutPort			*portPtr;
-	BOOL				foundConflict = NO;
-	
-	pthread_rwlock_wrlock(&outPortLock);
-	
-		it = [outPortArray objectEnumerator];
-		while ((portPtr = [it nextObject]) && (!foundConflict))	{
-			if (([[portPtr addressString] isEqualToString:a]) && ([portPtr port] == p))
-				foundConflict = YES;
-		}
-		if (!foundConflict)	{
-			returnMe = [[[[self outPortClass] alloc] initWithAddress:a andPort:p] autorelease];
-			if (returnMe != nil)
-				[outPortArray addObject:returnMe];
-		}
-	
-	pthread_rwlock_unlock(&outPortLock);
-	
-	return returnMe;
-}
-
-- (OSCOutPort *) createNewOutput	{
-	OSCOutPort		*portPtr = nil;
-	int				portIndex = 1234;
-	
-	while (portPtr == nil)	{
-		portPtr = [self createNewOutputToAddress:@"127.0.0.1" atPort:portIndex];
-		++portIndex;
-	}
-	
-	return portPtr;
 }
 
 - (void) deleteAllInputs	{
@@ -137,7 +66,156 @@
 	
 	pthread_rwlock_unlock(&outPortLock);
 }
+/*===================================================================================*/
+#pragma mark --------------------- creating input ports
+/*------------------------------------*/
+- (OSCInPort *) createNewInputFromSnapshot:(NSDictionary *)s	{
+	if (s == nil)
+		return nil;
+	OSCInPort		*returnMe = nil;
+	int				port = 1234;
+	NSNumber		*numPtr = [s objectForKey:@"port"];
+	NSString		*portLabel = [s objectForKey:@"portLabel"];
+	if (portLabel == nil)
+		portLabel = [self getUniqueInputLabel];
+	if (numPtr != nil)
+		port = [numPtr intValue];
+	returnMe = [self createNewInputForPort:port withLabel:portLabel];
+	return returnMe;
+}
+- (OSCInPort *) createNewInputForPort:(int)p withLabel:(NSString *)l	{
+	//NSLog(@"OSCManager:createNewInputForPort:withLabel: ... %ld, %@",p,l);
+	OSCInPort			*returnMe = nil;
+	NSEnumerator		*it;
+	OSCInPort			*portPtr;
+	BOOL				foundPortConflict = NO;
+	BOOL				foundNameConflict = NO;
+	
+	pthread_rwlock_wrlock(&inPortLock);
+		//	check for port or name conflicts
+		it = [inPortArray objectEnumerator];
+		while ((portPtr = [it nextObject]) && (!foundPortConflict) && (!foundNameConflict))	{
+			if ([portPtr port] == p)
+				foundPortConflict = YES;
+			if (([portPtr portLabel]!=nil) && ([[portPtr portLabel] isEqualToString:l]))
+				foundNameConflict = YES;
+		}
+		//	if there weren't any conflicts, make an instance set it up and add it to the array
+		if ((!foundPortConflict) && (!foundNameConflict))	{
+			Class			inPortClass = [self inPortClass];
+			
+			returnMe = [[[inPortClass alloc] initWithPort:p labelled:l] autorelease];
+			
+			if (returnMe != nil)	{
+				[returnMe setDelegate:self];
+				[returnMe start];
+				[inPortArray addObject:returnMe];
+			}
+		}
+	pthread_rwlock_unlock(&inPortLock);
+	
+	return returnMe;
+}
+- (OSCInPort *) createNewInputForPort:(int)p	{
+	OSCInPort			*returnMe = nil;
+	NSString			*uniqueLabel = [self getUniqueInputLabel];
+	returnMe = [self createNewInputForPort:p withLabel:uniqueLabel];
+	return returnMe;
+}
+- (OSCInPort *) createNewInput	{
+	OSCInPort		*portPtr = nil;
+	int				portIndex = 1234;
+	
+	while (portPtr == nil)	{
+		portPtr = [self createNewInputForPort:portIndex];
+		++portIndex;
+	}
+	
+	return portPtr;
+}
+/*===================================================================================*/
+#pragma mark --------------------- creating output ports
+/*------------------------------------*/
+- (OSCOutPort *) createNewOutputFromSnapshot:(NSDictionary *)s	{
+	if (s == nil)
+		return nil;
+	OSCOutPort		*returnMe = nil;
+	NSNumber		*numPtr = nil;
+	int				port;
+	NSString		*addressPtr = nil;
+	NSString		*portLabel = nil;
+	
+	//	find the address- if it's nil, return nil and bail on creation
+	addressPtr = [s objectForKey:@"address"];
+	if (addressPtr == nil)
+		return nil;
+	//	find the port- if it's nil, return nil and bail on creation
+	numPtr = [s objectForKey:@"port"];
+	if (numPtr == nil)
+		return nil;
+	port = [numPtr intValue];
+	//	find the port label- if it's nil, get a new unique port label
+	portLabel = [s objectForKey:@"portLabel"];
+	if (portLabel == nil)
+		portLabel = [self getUniqueOutputLabel];
+	
+	//	make the output based on the data
+	returnMe = [self createNewOutputToAddress:addressPtr atPort:port withLabel:portLabel];
+	
+	return returnMe;
+}
+- (OSCOutPort *) createNewOutputToAddress:(NSString *)a atPort:(int)p withLabel:(NSString *)l	{
+	//NSLog(@"OSCManager:createNewOutputToAddress:atPort:withLabel: ... %@:%ld, %@",a,p,l);
+	if ((a == nil) || (p < 1024) || (l == nil))
+		return nil;
+	
+	OSCOutPort			*returnMe = nil;
+	NSEnumerator		*it;
+	OSCOutPort			*portPtr;
+	BOOL				foundNameConflict = NO;
+	
+	pthread_rwlock_wrlock(&outPortLock);
+		//	check for name conflicts
+		it = [outPortArray objectEnumerator];
+		while ((portPtr = [it nextObject]) && (!foundNameConflict))	{
+			if (([portPtr portLabel]!=nil) && ([[portPtr portLabel] isEqualToString:l]))
+				foundNameConflict = YES;
+		}
+		//	if there weren't any name conflicts, make an instance and add it to the array
+		if (!foundNameConflict)	{
+			Class			outPortClass = [self outPortClass];
+			
+			returnMe = [[[outPortClass alloc] initWithAddress:a andPort:p labelled:l] autorelease];
+			
+			if (returnMe != nil)	{
+				[outPortArray addObject:returnMe];
+			}
+		}
+	pthread_rwlock_unlock(&outPortLock);
+	
+	return returnMe;
+}
+- (OSCOutPort *) createNewOutputToAddress:(NSString *)a atPort:(int)p	{
+	OSCOutPort			*returnMe = nil;
+	NSString			*uniqueLabel = [self getUniqueOutputLabel];
+	returnMe = [self createNewOutputToAddress:a atPort:p withLabel:uniqueLabel];
+	return returnMe;
+}
+- (OSCOutPort *) createNewOutput	{
+	OSCOutPort		*portPtr = nil;
+	int				portIndex = 1234;
+	
+	while (portPtr == nil)	{
+		portPtr = [self createNewOutputToAddress:@"127.0.0.1" atPort:portIndex];
+		++portIndex;
+	}
+	
+	return portPtr;
+}
 
+/*===================================================================================*/
+#pragma mark --------------------- main osc callback
+/*------------------------------------*/
 /*
 	important: this method will be called from any of a number of threads- each port is in its own thread!
 	
@@ -150,14 +228,174 @@
 	if ((delegate != nil) && ([delegate respondsToSelector:@selector(oscMessageReceived:)]))
 		[delegate oscMessageReceived:d];
 }
-
-- (id) delegate	{
-	return delegate;
+/*===================================================================================*/
+#pragma mark --------------------- working with ports
+/*------------------------------------*/
+- (NSString *) getUniqueInputLabel	{
+	NSString		*tmpString = nil;
+	NSEnumerator	*it;
+	BOOL			found = NO;
+	BOOL			alreadyInUse = NO;
+	OSCInPort		*portPtr = nil;
+	int				index = 1;
+	
+	pthread_rwlock_rdlock(&inPortLock);
+		while (!found)	{
+			tmpString = [NSString stringWithFormat:@"%@ %ld",[self inPortLabelBase],index];
+			
+			alreadyInUse = NO;
+			it = [inPortArray objectEnumerator];
+			while ((!alreadyInUse) && (portPtr = [it nextObject]))	{
+				if ([[portPtr portLabel] isEqualToString:tmpString])	{
+					alreadyInUse = YES;
+				}
+			}
+			
+			if ((tmpString != nil) && (!alreadyInUse))	{
+				found = YES;
+			}
+			
+			++index;
+		}
+	pthread_rwlock_unlock(&inPortLock);
+	
+	return tmpString;
 }
-- (void) setDelegate:(id)n	{
-	delegate = n;
+- (NSString *) getUniqueOutputLabel	{
+	NSString		*tmpString = nil;
+	NSEnumerator	*it;
+	BOOL			found = NO;
+	BOOL			alreadyInUse = NO;
+	OSCOutPort		*portPtr = nil;
+	int				index = 1;
+	
+	pthread_rwlock_rdlock(&outPortLock);
+	
+		while (!found)	{
+			tmpString = [NSString stringWithFormat:@"OSC Out Port %ld",index];
+			
+			alreadyInUse = NO;
+			it = [outPortArray objectEnumerator];
+			while ((!alreadyInUse) && (portPtr = [it nextObject]))	{
+				if ([[portPtr portLabel] isEqualToString:tmpString])	{
+					alreadyInUse = YES;
+				}
+			}
+			
+			if ((tmpString!=nil) && (!alreadyInUse))	{
+				found = YES;
+			}
+			
+			++index;
+		}
+	
+	pthread_rwlock_unlock(&outPortLock);
+	
+	return tmpString;
+}
+- (OSCInPort *) findInputWithLabel:(NSString *)n	{
+	if (n == nil)
+		return nil;
+	
+	OSCInPort		*foundPort = nil;
+	NSEnumerator	*it;
+	OSCInPort		*portPtr = nil;
+	
+	pthread_rwlock_rdlock(&inPortLock);
+		it = [inPortArray objectEnumerator];
+		while ((portPtr = [it nextObject]) && (foundPort == nil))	{
+			if ([[portPtr portLabel] isEqualToString:n])	{
+				foundPort = portPtr;
+			}
+		}
+	pthread_rwlock_unlock(&inPortLock);
+	
+	return foundPort;
+}
+- (OSCOutPort *) findOutputWithLabel:(NSString *)n	{
+	if (n == nil)	{
+		return nil;
+	}
+	
+	OSCOutPort		*foundPort = nil;
+	NSEnumerator		*it;
+	OSCOutPort		*portPtr = nil;
+	
+	pthread_rwlock_rdlock(&outPortLock);
+		it = [outPortArray objectEnumerator];
+		while ((portPtr = [it nextObject]) && (foundPort == nil))	{
+			if ([[portPtr portLabel] isEqualToString:n])	{
+				foundPort = portPtr;
+			}
+		}
+	pthread_rwlock_unlock(&outPortLock);
+	
+	return foundPort;
 }
 
+
+- (OSCOutPort *) findOutputWithAddress:(NSString *)a andPort:(int)p	{
+	if (a == nil)
+		return nil;
+	
+	OSCOutPort		*foundPort = nil;
+	NSEnumerator	*it;
+	OSCOutPort		*portPtr = nil;
+	
+	pthread_rwlock_rdlock(&outPortLock);
+		it = [outPortArray objectEnumerator];
+		while ((portPtr = [it nextObject]) && (foundPort == nil))	{
+			if (([[portPtr addressString] isEqualToString:a]) && ([portPtr port] == p))	{
+				foundPort = portPtr;
+			}
+		}
+	pthread_rwlock_unlock(&outPortLock);
+	
+	return foundPort;
+}
+- (OSCOutPort *) findOutputForIndex:(int)i	{
+	if ((i<0) || (i>=[outPortArray count]))
+		return nil;
+	OSCOutPort		*returnMe = nil;
+	pthread_rwlock_rdlock(&outPortLock);
+		returnMe = [outPortArray objectAtIndex:i];
+	pthread_rwlock_unlock(&outPortLock);
+	return returnMe;
+}
+- (void) removeInput:(id)p	{
+	if (p == nil)
+		return;
+	[(OSCInPort *)p stop];
+	pthread_rwlock_wrlock(&inPortLock);
+		[inPortArray removeObject:p];
+	pthread_rwlock_unlock(&inPortLock);
+}
+- (void) removeOutput:(id)p	{
+	if (p == nil)
+		return;
+	pthread_rwlock_wrlock(&outPortLock);
+		[outPortArray removeObject:p];
+	pthread_rwlock_unlock(&outPortLock);
+}
+- (NSArray *) outPortLabelArray	{
+	NSMutableArray		*returnMe = [NSMutableArray arrayWithCapacity:0];
+	NSEnumerator		*it;
+	OSCOutPort			*portPtr;
+	
+	pthread_rwlock_rdlock(&outPortLock);
+		it = [outPortArray objectEnumerator];
+		while (portPtr = [it nextObject])	{
+			if ([portPtr portLabel] != nil)	{
+				[returnMe addObject:[portPtr portLabel]];
+			}
+		}
+	pthread_rwlock_unlock(&outPortLock);
+	
+	return returnMe;
+}
+/*===================================================================================*/
+#pragma mark --------------------- subclassable methods for customization
+/*------------------------------------*/
 /*
 	these methods exist to make it easier to sub-class the osc manager and
 	use your own custom subclasses of OSCInPort/OSCOutPort
@@ -165,10 +403,21 @@
 - (id) inPortClass	{
 	return [OSCInPort class];
 }
+- (NSString *) inPortLabelBase	{
+	return [NSString stringWithString:@"VVOSC"];
+}
 - (id) outPortClass	{
 	return [OSCOutPort class];
 }
-
+/*===================================================================================*/
+#pragma mark --------------------- misc.
+/*------------------------------------*/
+- (id) delegate	{
+	return delegate;
+}
+- (void) setDelegate:(id)n	{
+	delegate = n;
+}
 - (NSMutableArray *) inPortArray	{
 	return inPortArray;
 }

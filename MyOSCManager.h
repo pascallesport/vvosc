@@ -11,6 +11,10 @@
 #import "OSCInPortRetainsRaw.h"
 
 
+//	key for notification which is fired whenever a new output is created
+#define VVOSCOutPortsChangedNotification @"VVOSCOutPortsChangedNotification"
+
+
 /*
 	this class exists solely to specify a subclass of OSCInPort which
 	formats and retains strings of the raw packet data received

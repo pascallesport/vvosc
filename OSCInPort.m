@@ -18,12 +18,21 @@
 	return [NSString stringWithFormat:@"<OSCInPort: %ld>",port];
 }
 + (id) createWithPort:(short)p	{
-	OSCInPort		*returnMe = [[OSCInPort alloc] initWithPort:p];
+	OSCInPort		*returnMe = [[OSCInPort alloc] initWithPort:p labelled:nil];
+	if (returnMe == nil)
+		return nil;
+	return [returnMe autorelease];
+}
++ (id) createWithPort:(short)p labelled:(NSString *)l	{
+	OSCInPort		*returnMe = [[OSCInPort alloc] initWithPort:p labelled:l];
 	if (returnMe == nil)
 		return nil;
 	return [returnMe autorelease];
 }
 - (id) initWithPort:(short)p	{
+	return [self initWithPort:p labelled:nil];
+}
+- (id) initWithPort:(short)p labelled:(NSString *)l	{
 	pthread_mutexattr_t		attr;
 	
 	self = [super init];
@@ -38,19 +47,30 @@
 	
 	threadTimer = nil;
 	threadTimerCount = 0;
+	
+	portLabel = nil;
+	if (l != nil)
+		portLabel = [l copy];
+	
 	scratchDict = [[NSMutableDictionary dictionaryWithCapacity:0] retain];
 	delegate = nil;
+	
+	zeroConfDest = nil;
 	
 	bound = [self createSocket];
 	
 	return self;
 }
 - (void) dealloc	{
+	//NSLog(@"OSCInPort:dealloc:");
 	if (!deleted)
 		[self prepareToBeDeleted];
 	if (scratchDict != nil)
 		[scratchDict release];
 	scratchDict = nil;
+	if (portLabel != nil)
+		[portLabel release];
+	portLabel = nil;
 	pthread_mutex_destroy(&lock);
 	[super dealloc];
 }
@@ -63,6 +83,15 @@
 	
 	deleted = YES;
 }
+
+- (NSDictionary *) createSnapshot	{
+	NSMutableDictionary		*returnMe = [NSMutableDictionary dictionaryWithCapacity:0];
+	[returnMe setObject:[NSNumber numberWithInt:port] forKey:@"port"];
+	if (portLabel != nil)
+		[returnMe setObject:portLabel forKey:@"portLabel"];
+	return returnMe;
+}
+
 - (BOOL) createSocket	{
 	//	create a UDP socket
 	sock = socket(PF_INET, SOCK_DGRAM, 0);
@@ -90,6 +119,18 @@
 	}
 	running = YES;
 	[NSThread detachNewThreadSelector:@selector(launchOSCLoop:) toTarget:self withObject:nil];
+	
+	//	if there's a port name, create a NSNetService so devices using bonjour know they can send data to me
+	if (portLabel != nil)	{
+		if (zeroConfDest != nil)
+			[zeroConfDest release];
+		zeroConfDest = [[NSNetService alloc]
+			initWithDomain:@"local."
+			type:@"_osc._udp."
+			name:[NSString stringWithFormat:@"%@ %@",CSCopyMachineName(),portLabel]
+			port:port];
+		[zeroConfDest publish];
+	}
 }
 - (void) stop	{
 	if ((threadTimer == nil) || (!running))	{
@@ -98,6 +139,14 @@
 	}
 	running = NO;
 	busy = YES;
+	
+	//	stop & release the bonjour service
+	if (zeroConfDest != nil)	{
+		[zeroConfDest stop];
+		[zeroConfDest release];
+		zeroConfDest = nil;
+	}
+	
 	while (threadTimer != nil)	{
 		//NSLog(@"\t\twaiting for OSC thread to stop...");
 		usleep(1000);
@@ -207,8 +256,6 @@
 			[scratchDict removeAllObjects];
 		pthread_mutex_unlock(&lock);
 		
-		//NSLog(@"\t\tpassing info to delegate:");
-		//NSLog(@"%@",tmpDict);
 		[self handleParsedScratchDict:tmpDict];
 	}
 	
@@ -268,28 +315,52 @@
 	[self stop];
 	close(sock);
 	sock = -1;
-	bound = NO;
-	
-	//	release the scratch dict (it's alloc'd in the init)
+	//	clear out the scratch dict
 	if (scratchDict != nil)
-		[scratchDict release];
-	scratchDict = nil;
-	//	initwith the new port
-	[self initWithPort:n];
+		[scratchDict removeAllObjects];
+	//	set up with the new port
+	bound = NO;
+	running = NO;
+	busy = NO;
+	port = n;
+	bound = [self createSocket];
 	//	if i'm bound, start- if i'm not bound, something went wrong- use my old port
 	if (bound)
 		[self start];
 	else	{
+		//	close the socket
 		close(sock);
 		sock = -1;
+		//	clear out the scratch dict
 		if (scratchDict != nil)
-			[scratchDict release];
-		scratchDict = nil;
-		
-		[self initWithPort:oldPort];
+			[scratchDict removeAllObjects];
+		//	set up with the old port
+		bound = NO;
+		running = NO;
+		busy = NO;
+		port = oldPort;
+		bound = [self createSocket];
 		if (bound)
 			[self start];
 	}
+}
+- (NSString *) portLabel	{
+	return portLabel;
+}
+- (void) setPortLabel:(NSString *)n	{
+	if ((n != nil) && (portLabel != nil) && ([n isEqualToString:portLabel]))
+		return;
+	
+	[self stop];
+	
+	if (portLabel != nil)
+		[portLabel release];
+	portLabel = nil;
+	
+	if (n != nil)
+		portLabel = [n copy];
+	
+	[self start];
 }
 - (BOOL) bound	{
 	return bound;

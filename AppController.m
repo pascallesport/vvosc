@@ -26,18 +26,30 @@
 
 - (void) awakeFromNib	{
 	NSString		*ipFieldString;
+	id				anObj = nil;
 	
-	//	tell the osc manager to make an output port to a given IP and port
-	outPort = [manager createNewOutputToAddress:@"127.0.0.1" atPort:1234];
-	if (outPort == nil)
-		NSLog(@"\t\terror creating output");
+	//	make an out port to my machine's dedicated in port
+	anObj = [manager createNewOutputToAddress:@"127.0.0.1" atPort:1234 withLabel:@"This app"];
+	if (anObj == nil)
+		NSLog(@"\t\terror creating output A");
+	//	make another out port to hold the manual settings
+	manualOutPort = [manager createNewOutputToAddress:@"127.0.0.1" atPort:1234 withLabel:@"Manual Output"];
+	if (manualOutPort == nil)
+		NSLog(@"\t\terror creating output B");
 	//	tell the osc manager to make an input to receive from a given port
 	inPort = [manager createNewInputForPort:1234];
 	if (inPort == nil)
 		NSLog(@"\t\terror creating input");
 	
+	//	populate the IP field string with  this machine's IP and the port of my dedicated input
 	ipFieldString = [NSString stringWithFormat:@"%@ port 1234",[[self ipAddressArray] objectAtIndex:0]];
 	[receivingAddressField setStringValue:ipFieldString];
+	
+	//	register to receive notifications that the list of osc outputs has changed
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(oscOutputsChangedNotification:) name:VVOSCOutPortsChangedNotification object:nil];
+	
+	//	fake an outputs-changed notification to make sure my list of destinations updates (in case it refreshes before i'm awake)
+	[self oscOutputsChangedNotification:nil];
 }
 
 - (void) oscMessageReceived:(NSDictionary *)d	{
@@ -78,13 +90,44 @@
 	[receivingTextView performSelectorOnMainThread:@selector(setString:) withObject:[[mutString copy] autorelease] waitUntilDone:NO];
 }
 
+- (void) oscOutputsChangedNotification:(NSNotification *)note	{
+	//NSLog(@"AppController:oscOutputsChangedNotification:");
+	NSArray			*portLabelArray = nil;
+	
+	//	remove the items in the pop-up button
+	[outputDestinationButton removeAllItems];
+	//	get an array of the out port labels
+	portLabelArray = [manager outPortLabelArray];
+	//	push the labels to the pop-up button of destinations
+	[outputDestinationButton addItemsWithTitles:portLabelArray];
+}
+- (IBAction) outputDestinationButtonUsed:(id)sender	{
+	int				selectedIndex = [outputDestinationButton indexOfSelectedItem];
+	OSCOutPort		*selectedPort = nil;
+	//	figure out the index of the selected item
+	if (selectedIndex == -1)
+		return;
+	//	find the output port corresponding to the index of the selected item
+	selectedPort = [manager findOutputForIndex:selectedIndex];
+	if (selectedPort == nil)
+		return;
+	//	push the data of the selected output to the fields
+	[ipField setStringValue:[selectedPort addressString]];
+	[portField setStringValue:[NSString stringWithFormat:@"%d",[selectedPort port]]];
+	//	bump the fields (which updates the manualOutPort, which is the only out port sending data)
+	[self setupFieldUsed:nil];
+}
+
 - (IBAction) setupFieldUsed:(id)sender	{
 	//NSLog(@"AppController:setupFieldUsed:");
-	[outPort setAddressString:[ipField stringValue]];
-	[ipField setStringValue:[outPort addressString]];
+	//	push the settings on the ui items to the manualOutPort, which is the only out port sending data
+	[manualOutPort setAddressString:[ipField stringValue]];
+	[ipField setStringValue:[manualOutPort addressString]];
 	
-	[outPort setPort:[portField intValue]];
-	[portField setStringValue:[NSString stringWithFormat:@"%d",[outPort port]]];
+	[manualOutPort setPort:[portField intValue]];
+	[portField setStringValue:[NSString stringWithFormat:@"%d",[manualOutPort port]]];
+	//	select the "manual output" item in the pop-up button
+	[outputDestinationButton selectItemWithTitle:@"Manual Output"];
 }
 - (IBAction) valueFieldUsed:(id)sender	{
 	//NSLog(@"AppController:valueFieldUsd:");
@@ -122,7 +165,7 @@
 	//	make a packet from the buffer- as soon as you do this, the actual packet is made
 	packet = [OSCPacket createWithContent:bundle];
 	//	tell the out port to send the packet
-	[outPort sendThisPacket:packet];
+	[manualOutPort sendThisPacket:packet];
 }
 - (IBAction) displayTypeMatrixUsed:(id)sender	{
 	[self displayPackets];
@@ -179,7 +222,7 @@
 	//	create a packet from the bundle (this actually makes the buffer that you'll send)
 	pack = [OSCPacket createWithContent:mainBundle];
 	//	tell the out port to send the packet
-	[outPort sendThisPacket:pack];
+	[manualOutPort sendThisPacket:pack];
 }
 - (IBAction) floatTest:(id)sender	{
 	NSLog(@"AppController:floatTest:");
@@ -225,7 +268,7 @@
 	//	create a packet from the bundle (this actually makes the buffer that you'll send)
 	pack = [OSCPacket createWithContent:mainBundle];
 	//	tell the out port to send the packet
-	[outPort sendThisPacket:pack];
+	[manualOutPort sendThisPacket:pack];
 }
 - (IBAction) colorTest:(id)sender	{
 	NSLog(@"AppController:colorTest:");
@@ -271,7 +314,7 @@
 	//	create a packet from the bundle (this actually makes the buffer that you'll send)
 	pack = [OSCPacket createWithContent:mainBundle];
 	//	tell the out port to send the packet
-	[outPort sendThisPacket:pack];
+	[manualOutPort sendThisPacket:pack];
 }
 - (IBAction) stringTest:(id)sender	{
 	NSLog(@"AppController:stringTest:");
@@ -319,7 +362,7 @@
 	//	create a packet from the bundle (this actually makes the buffer that you'll send)
 	pack = [OSCPacket createWithContent:mainBundle];
 	//	tell the out port to send the packet
-	[outPort sendThisPacket:pack];
+	[manualOutPort sendThisPacket:pack];
 }
 
 - (NSArray *) ipAddressArray	{
@@ -344,6 +387,7 @@
 				[returnMe addObject:addressPtr];
 		}
 	}
+	//NSLog(@"\t\t%@",returnMe);
 	return returnMe;
 }
 

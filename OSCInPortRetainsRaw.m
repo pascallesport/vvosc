@@ -12,9 +12,9 @@
 @implementation OSCInPortRetainsRaw
 
 
-- (id) initWithPort:(short)p	{
-	//NSLog(@"OSCInPortRetainsRaw:initWithPort:");
-	self = [super initWithPort:p];
+- (id) initWithPort:(short)p labelled:(NSString *)l	{
+	//NSLog(@"OSCInPortRetainsRaw:initWithPort:labelled:");
+	self = [super initWithPort:p labelled:l];
 	packetStringArray = [[NSMutableArray arrayWithCapacity:0] retain];
 	return self;
 }

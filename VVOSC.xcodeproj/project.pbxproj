@@ -26,6 +26,10 @@
 		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
 		9609B8140E993EBF0095836C /* VVOSC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* VVOSC.framework */; };
 		9609B8530E9940940095836C /* VVOSC.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* VVOSC.framework */; };
+		9612C1910EEF81FC00BAD514 /* OSCZeroConfManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9612C18D0EEF81FC00BAD514 /* OSCZeroConfManager.m */; };
+		9612C1920EEF81FC00BAD514 /* OSCZeroConfDomain.m in Sources */ = {isa = PBXBuildFile; fileRef = 9612C18E0EEF81FC00BAD514 /* OSCZeroConfDomain.m */; };
+		9612C1930EEF81FC00BAD514 /* OSCZeroConfManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 9612C18F0EEF81FC00BAD514 /* OSCZeroConfManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9612C1940EEF81FC00BAD514 /* OSCZeroConfDomain.h in Headers */ = {isa = PBXBuildFile; fileRef = 9612C1900EEF81FC00BAD514 /* OSCZeroConfDomain.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		963E71E20E993BFB007CF9D8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 965392010E85C89100A719BF /* main.m */; };
 		963E71E30E993BFB007CF9D8 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 965392170E85F5DD00A719BF /* AppController.m */; };
 		963E71E40E993BFC007CF9D8 /* MyOSCManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E3DF0D0E9685F700B706F8 /* MyOSCManager.m */; };
@@ -86,6 +90,10 @@
 		32DBCF5E0370ADEE00C91783 /* VVOSC_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VVOSC_Prefix.pch; sourceTree = "<group>"; };
 		8DC2EF5A0486A6940098B216 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8DC2EF5B0486A6940098B216 /* VVOSC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VVOSC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9612C18D0EEF81FC00BAD514 /* OSCZeroConfManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSCZeroConfManager.m; sourceTree = "<group>"; };
+		9612C18E0EEF81FC00BAD514 /* OSCZeroConfDomain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSCZeroConfDomain.m; sourceTree = "<group>"; };
+		9612C18F0EEF81FC00BAD514 /* OSCZeroConfManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSCZeroConfManager.h; sourceTree = "<group>"; };
+		9612C1900EEF81FC00BAD514 /* OSCZeroConfDomain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSCZeroConfDomain.h; sourceTree = "<group>"; };
 		963E71D00E993BB9007CF9D8 /* VVOSCTester.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VVOSCTester.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		963E71D20E993BB9007CF9D8 /* VVOSCTester-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "VVOSCTester-Info.plist"; sourceTree = "<group>"; };
 		964687CD0E884F4E00CCC231 /* OSCOutPort.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSCOutPort.m; sourceTree = "<group>"; };
@@ -192,6 +200,10 @@
 				964687D50E884F4E00CCC231 /* OSCBundle.m */,
 				964687D10E884F4E00CCC231 /* OSCMessage.h */,
 				964687D80E884F4E00CCC231 /* OSCMessage.m */,
+				9612C18F0EEF81FC00BAD514 /* OSCZeroConfManager.h */,
+				9612C18D0EEF81FC00BAD514 /* OSCZeroConfManager.m */,
+				9612C1900EEF81FC00BAD514 /* OSCZeroConfDomain.h */,
+				9612C18E0EEF81FC00BAD514 /* OSCZeroConfDomain.m */,
 			);
 			name = Framework;
 			sourceTree = "<group>";
@@ -250,6 +262,8 @@
 				964687DD0E884F4E00CCC231 /* OSCMessage.h in Headers */,
 				964687E00E884F4E00CCC231 /* OSCBundle.h in Headers */,
 				964687E20E884F4E00CCC231 /* OSCPacket.h in Headers */,
+				9612C1930EEF81FC00BAD514 /* OSCZeroConfManager.h in Headers */,
+				9612C1940EEF81FC00BAD514 /* OSCZeroConfDomain.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -343,6 +357,8 @@
 				964687E10E884F4E00CCC231 /* OSCBundle.m in Sources */,
 				964687E30E884F4E00CCC231 /* OSCManager.m in Sources */,
 				964687E40E884F4E00CCC231 /* OSCMessage.m in Sources */,
+				9612C1910EEF81FC00BAD514 /* OSCZeroConfManager.m in Sources */,
+				9612C1920EEF81FC00BAD514 /* OSCZeroConfDomain.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
