@@ -26,6 +26,8 @@
 		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
 		9609B8140E993EBF0095836C /* VVOSC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* VVOSC.framework */; };
 		9609B8530E9940940095836C /* VVOSC.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* VVOSC.framework */; };
+		9612139B0EF1D97D00F21DD9 /* AddressValPair.h in Headers */ = {isa = PBXBuildFile; fileRef = 961213990EF1D97D00F21DD9 /* AddressValPair.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9612139C0EF1D97D00F21DD9 /* AddressValPair.m in Sources */ = {isa = PBXBuildFile; fileRef = 9612139A0EF1D97D00F21DD9 /* AddressValPair.m */; };
 		9612C1910EEF81FC00BAD514 /* OSCZeroConfManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9612C18D0EEF81FC00BAD514 /* OSCZeroConfManager.m */; };
 		9612C1920EEF81FC00BAD514 /* OSCZeroConfDomain.m in Sources */ = {isa = PBXBuildFile; fileRef = 9612C18E0EEF81FC00BAD514 /* OSCZeroConfDomain.m */; };
 		9612C1930EEF81FC00BAD514 /* OSCZeroConfManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 9612C18F0EEF81FC00BAD514 /* OSCZeroConfManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -90,6 +92,8 @@
 		32DBCF5E0370ADEE00C91783 /* VVOSC_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VVOSC_Prefix.pch; sourceTree = "<group>"; };
 		8DC2EF5A0486A6940098B216 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8DC2EF5B0486A6940098B216 /* VVOSC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VVOSC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		961213990EF1D97D00F21DD9 /* AddressValPair.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressValPair.h; sourceTree = "<group>"; };
+		9612139A0EF1D97D00F21DD9 /* AddressValPair.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressValPair.m; sourceTree = "<group>"; };
 		9612C18D0EEF81FC00BAD514 /* OSCZeroConfManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSCZeroConfManager.m; sourceTree = "<group>"; };
 		9612C18E0EEF81FC00BAD514 /* OSCZeroConfDomain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSCZeroConfDomain.m; sourceTree = "<group>"; };
 		9612C18F0EEF81FC00BAD514 /* OSCZeroConfManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSCZeroConfManager.h; sourceTree = "<group>"; };
@@ -204,6 +208,8 @@
 				9612C18D0EEF81FC00BAD514 /* OSCZeroConfManager.m */,
 				9612C1900EEF81FC00BAD514 /* OSCZeroConfDomain.h */,
 				9612C18E0EEF81FC00BAD514 /* OSCZeroConfDomain.m */,
+				961213990EF1D97D00F21DD9 /* AddressValPair.h */,
+				9612139A0EF1D97D00F21DD9 /* AddressValPair.m */,
 			);
 			name = Framework;
 			sourceTree = "<group>";
@@ -264,6 +270,7 @@
 				964687E20E884F4E00CCC231 /* OSCPacket.h in Headers */,
 				9612C1930EEF81FC00BAD514 /* OSCZeroConfManager.h in Headers */,
 				9612C1940EEF81FC00BAD514 /* OSCZeroConfDomain.h in Headers */,
+				9612139B0EF1D97D00F21DD9 /* AddressValPair.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -359,6 +366,7 @@
 				964687E40E884F4E00CCC231 /* OSCMessage.m in Sources */,
 				9612C1910EEF81FC00BAD514 /* OSCZeroConfManager.m in Sources */,
 				9612C1920EEF81FC00BAD514 /* OSCZeroConfDomain.m in Sources */,
+				9612139C0EF1D97D00F21DD9 /* AddressValPair.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

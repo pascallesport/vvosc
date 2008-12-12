@@ -108,7 +108,10 @@
 - (OSCOutPort *) createNewOutput;
 
 //	typically, the manager is the input port's delegate- input ports tell delegates when they receive data
+//	this method is called and contains coalesced messages (grouped by address path)
 - (void) oscMessageReceived:(NSDictionary *)d;
+//	this method is called every time any osc val is processed
+- (void) receivedOSCVal:(id)v forAddress:(NSString *)a;
 
 //	methods for working with ports
 - (NSString *) getUniqueInputLabel;

@@ -7,7 +7,8 @@
  *
  */
  
- 
+
+#import "AddressValPair.h" 
  #import "OSCManager.h"
  #import "OSCZeroConfManager.h"
  #import "OSCPacket.h"

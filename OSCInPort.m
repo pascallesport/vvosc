@@ -53,6 +53,8 @@
 		portLabel = [l copy];
 	
 	scratchDict = [[NSMutableDictionary dictionaryWithCapacity:0] retain];
+	scratchArray = [[NSMutableArray arrayWithCapacity:0] retain];
+	
 	delegate = nil;
 	
 	zeroConfDest = nil;
@@ -68,6 +70,9 @@
 	if (scratchDict != nil)
 		[scratchDict release];
 	scratchDict = nil;
+	if (scratchArray != nil)
+		[scratchArray release];
+	scratchArray = nil;
 	if (portLabel != nil)
 		[portLabel release];
 	portLabel = nil;
@@ -250,13 +255,17 @@
 	//	if there's stuff in the scratch dict, i have to pass the info on to my delegate
 	if ([scratchDict count] > 0)	{
 		NSDictionary		*tmpDict = nil;
+		NSArray				*tmpArray = nil;
 		
 		pthread_mutex_lock(&lock);
 			tmpDict = [NSDictionary dictionaryWithDictionary:scratchDict];
 			[scratchDict removeAllObjects];
+			tmpArray = [NSArray arrayWithArray:scratchArray];
+			[scratchArray removeAllObjects];
 		pthread_mutex_unlock(&lock);
 		
 		[self handleParsedScratchDict:tmpDict];
+		[self handleScratchArray:tmpArray];
 	}
 	
 	//	bump the threadTimercount, drain the autorelease pool periodically
@@ -276,28 +285,48 @@
 		toInPort:self];
 }
 /*
-	this method exists so subclasses of me can subclass around this and handle the parsed
+	these methods exists so subclasses of me can subclass around this and handle the parsed
 	contents of the scratch dict however they like
 */
 - (void) handleParsedScratchDict:(NSDictionary *)d	{
-	if (delegate != nil)
+	//NSLog(@"OSCInPort:handleParsedScratchDict: ... %@",d);
+	if ((delegate != nil) && ([delegate respondsToSelector:@selector(oscMessageReceived:)]))
 		[delegate oscMessageReceived:d];
 }
+- (void) handleScratchArray:(NSArray *)a	{
+	//NSLog(@"OSCInPort:handleScratchArray: ... %@",a);
+	if ((delegate != nil) && ([delegate respondsToSelector:@selector(receivedOSCVal:forAddress:)]))	{
+		NSEnumerator		*it = [a objectEnumerator];
+		AddressValPair		*anObj;
+		while (anObj = [it nextObject])	{
+			[delegate receivedOSCVal:[anObj val] forAddress:[anObj address]];
+		}
+	}
+}
 /*
-	this method exists so received messages can be added to my scratch dict for output
+	these methods exist so received messages can be added to my scratch dict and scratch array for output
 */
 - (void) addValue:(id)val toAddressPath:(NSString *)p	{
+	//NSLog(@"OSCInPort:addValue:toAddressPath: ... %@ : %@",p,val);
 	if ((val == nil) || (p == nil))
 		return;
 	
 	NSMutableArray		*addressArray = nil;
+	AddressValPair		*pair = nil;
 	
 	pthread_mutex_lock(&lock);
+		//	make an address/val pair, add it to the array
+		pair = [AddressValPair createWithAddress:p val:val];
+		[scratchArray addObject:pair];
+		
+		//	find the array of msgs in the scratch dict (coalesced messages)
 		addressArray = [scratchDict objectForKey:p];
 		if (addressArray == nil)	{
+			//	if there's no msg array, make one
 			addressArray = [NSMutableArray arrayWithCapacity:0];
 			[scratchDict setObject:addressArray forKey:p];
 		}
+		//	add the val to the msg array
 		[addressArray addObject:val];
 	pthread_mutex_unlock(&lock);
 }
@@ -315,9 +344,13 @@
 	[self stop];
 	close(sock);
 	sock = -1;
-	//	clear out the scratch dict
-	if (scratchDict != nil)
-		[scratchDict removeAllObjects];
+	//	clear out the scratch dict/array
+	pthread_mutex_lock(&lock);
+		if (scratchDict != nil)
+			[scratchDict removeAllObjects];
+		if (scratchArray != nil)
+			[scratchArray removeAllObjects];
+	pthread_mutex_unlock(&lock);
 	//	set up with the new port
 	bound = NO;
 	running = NO;
@@ -332,8 +365,12 @@
 		close(sock);
 		sock = -1;
 		//	clear out the scratch dict
-		if (scratchDict != nil)
-			[scratchDict removeAllObjects];
+		pthread_mutex_lock(&lock);
+			if (scratchDict != nil)
+				[scratchDict removeAllObjects];
+			if (scratchArray != nil)
+				[scratchArray removeAllObjects];
+		pthread_mutex_unlock(&lock);
 		//	set up with the old port
 		bound = NO;
 		running = NO;

@@ -13,6 +13,7 @@
 #import <netinet/in.h>
 
 #import <pthread.h>
+#import "AddressValPair.h"
 #import "OSCPacket.h"
 #import "OSCBundle.h"
 #import "OSCMessage.h"
@@ -20,10 +21,12 @@
 
 @protocol OSCInPortDelegateProtocol
 - (void) oscMessageReceived:(NSDictionary *)d;
+- (void) receivedOSCVal:(id)v forAddress:(NSString *)a;
 @end
 
 @protocol OSCDelegateProtocol
 - (void) oscMessageReceived:(NSDictionary *)d;
+- (void) receivedOSCVal:(id)v forAddress:(NSString *)a;
 @end
 
 
@@ -45,7 +48,8 @@
 	NSString				*portLabel;	//	the "name" of the port (added to distinguish multiple osc input ports for bonjour)
 	NSNetService			*zeroConfDest;	//	bonjour service for publishing this input's address...only active if there's a portLabel!
 	
-	NSMutableDictionary		*scratchDict;	//	key of dict is address port; object at key is a mut. array
+	NSMutableDictionary		*scratchDict;	//	key of dict is address port; object at key is a mut. array.  coalesced messaging.
+	NSMutableArray			*scratchArray;	//	array of AddressValPair objects.  used for serial messaging.
 	id						delegate;	//	my delegate gets notified of incoming messages
 }
 
@@ -64,7 +68,10 @@
 - (void) launchOSCLoop:(id)o;
 - (void) OSCThreadProc:(NSTimer *)t;
 - (void) parseRawBuffer:(unsigned char *)b ofMaxLength:(int)l;
+
+//	if the delegate im
 - (void) handleParsedScratchDict:(NSDictionary *)d;
+- (void) handleScratchArray:(NSArray *)a;
 
 - (void) addValue:(id)val toAddressPath:(NSString *)p;
 

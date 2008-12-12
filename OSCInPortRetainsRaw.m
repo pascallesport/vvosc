@@ -38,7 +38,7 @@
 	
 	//	assemble a string
 	mutString = [NSMutableString stringWithCapacity:0];
-	[mutString appendString:@"*************** PACKET START\r"];
+	[mutString appendString:@"***************\r"];
 	for (bundleIndexCount = 0; bundleIndexCount < (l/4); ++bundleIndexCount)	{
 		[mutString appendFormat:@"(%d)\t\t%c\t%c\t%c\t%c\r",bundleIndexCount*4, charPtr[bundleIndexCount*4], charPtr[bundleIndexCount*4+1], charPtr[bundleIndexCount*4+2], charPtr[bundleIndexCount*4+3]];
 	}
@@ -47,7 +47,7 @@
 	
 	
 	mutString = [NSMutableString stringWithCapacity:0];
-	[mutString appendString:@"*************** PACKET START\r"];
+	[mutString appendString:@"***************\r"];
 	for (bundleIndexCount = 0; bundleIndexCount < (l/4); ++bundleIndexCount)	{
 		[mutString appendFormat:@"(%d)\t\t%X\t%X\t%X\t%X\r",bundleIndexCount*4, charPtr[bundleIndexCount*4], charPtr[bundleIndexCount*4+1],charPtr[bundleIndexCount*4+2],charPtr[bundleIndexCount*4+3]];
 	}
@@ -55,7 +55,7 @@
 	
 	
 	mutString = [NSMutableString stringWithCapacity:0];
-	[mutString appendString:@"*************** PACKET START\r"];
+	[mutString appendString:@"***************\r"];
 	for (bundleIndexCount = 0; bundleIndexCount < (l/4); ++bundleIndexCount)	{
 		[mutString appendFormat:@"(%d)\t\t%d\t%d\t%d\t%d\r",bundleIndexCount*4, charPtr[bundleIndexCount*4], charPtr[bundleIndexCount*4+1],charPtr[bundleIndexCount*4+2],charPtr[bundleIndexCount*4+3]];
 	}
@@ -84,7 +84,7 @@
 	NSArray				*valArray = nil;
 	id					anObj;
 	
-	[mutString appendString:@"*************** PACKET START"];
+	[mutString appendString:@"***************"];
 	while (key = [it nextObject])	{
 		//NSLog(@"\t%@",key);
 		[mutString appendFormat:@"\r%@-",key];
@@ -94,8 +94,20 @@
 			[mutString appendFormat:@"\r\t%@",anObj];
 		}
 	}
-	[[packetStringArray lastObject] setObject:mutString forKey:@"parsed"];
+	[[packetStringArray lastObject] setObject:mutString forKey:@"coalesced"];
 	[super handleParsedScratchDict:d];
+}
+- (void) handleScratchArray:(NSArray *)a	{
+	NSMutableString		*mutString = [NSMutableString stringWithCapacity:0];
+	NSEnumerator		*it = [a objectEnumerator];
+	AddressValPair		*anObj;
+	
+	[mutString appendString:@"***************"];
+	while (anObj = [it nextObject])	{
+		[mutString appendFormat:@"\r%@ : %@",[anObj address],[anObj val]];
+	}
+	[[packetStringArray lastObject] setObject:mutString forKey:@"serial"];
+	[super handleScratchArray:a];
 }
 
 - (NSMutableArray *) packetStringArray	{

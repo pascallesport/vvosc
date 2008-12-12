@@ -35,7 +35,6 @@
 	IBOutlet NSPopUpButton		*outputDestinationButton;
 }
 
-- (void) oscMessageReceived:(NSDictionary *)d;
 - (void) displayPackets;
 
 - (void) oscOutputsChangedNotification:(NSNotification *)note;

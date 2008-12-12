@@ -225,8 +225,14 @@
 	as such, this method tells the manager's delegate about any received osc messages.
 */
 - (void) oscMessageReceived:(NSDictionary *)d	{
+	//NSLog(@"OSCManager:oscMessageReceived: ... %@",d);
 	if ((delegate != nil) && ([delegate respondsToSelector:@selector(oscMessageReceived:)]))
 		[delegate oscMessageReceived:d];
+}
+- (void) receivedOSCVal:(id)v forAddress:(NSString *)a	{
+	//NSLog(@"OSCManager:receivedOSCVal:forAddress: ... %@:%@",a,v);
+	if ((delegate != nil) && ([delegate respondsToSelector:@selector(receivedOSCVal:forAddress:)]))
+		[delegate receivedOSCVal:v forAddress:a];
 }
 /*===================================================================================*/
 #pragma mark --------------------- working with ports

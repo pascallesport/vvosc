@@ -51,11 +51,15 @@
 	//	fake an outputs-changed notification to make sure my list of destinations updates (in case it refreshes before i'm awake)
 	[self oscOutputsChangedNotification:nil];
 }
-
+/*
 - (void) oscMessageReceived:(NSDictionary *)d	{
 	if (d == nil)
 		return;
 	//NSLog(@"%@",d);
+	[self displayPackets];
+}
+*/
+- (void) receivedOSCVal:(id)v forAddress:(NSString *)a	{
 	[self displayPackets];
 }
 - (void) displayPackets	{
@@ -68,15 +72,18 @@
 	//	figure out what kind of string i'm going to be assembling
 	switch ([displayTypeRadioGroup selectedColumn])	{
 		case 0:		//	parsed
-			localKey = [NSString stringWithString:@"parsed"];
+			localKey = [NSString stringWithString:@"serial"];
 			break;
-		case 1:		//	char
+		case 1:
+			localKey = [NSString stringWithString:@"coalesced"];
+			break;
+		case 2:		//	char
 			localKey = [NSString stringWithString:@"char"];
 			break;
-		case 2:		//	dec
+		case 3:		//	dec
 			localKey = [NSString stringWithString:@"dec"];
 			break;
-		case 3:		//	hex
+		case 4:		//	hex
 			localKey = [NSString stringWithString:@"hex"];
 			break;
 	}
