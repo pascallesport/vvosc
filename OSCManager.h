@@ -120,6 +120,7 @@
 - (OSCOutPort *) findOutputWithLabel:(NSString *)n;
 - (OSCOutPort *) findOutputWithAddress:(NSString *)a andPort:(int)p;
 - (OSCOutPort *) findOutputForIndex:(int)i;
+- (OSCInPort *) findInputWithZeroConfName:(NSString *)n;
 - (void) removeInput:(id)p;
 - (void) removeOutput:(id)p;
 - (NSArray *) outPortLabelArray;

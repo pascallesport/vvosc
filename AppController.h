@@ -17,6 +17,7 @@
 	OSCOutPort					*manualOutPort;	//	this is the port that will actually be sending the data
 	
 	IBOutlet NSTextField		*receivingAddressField;
+	IBOutlet NSTextField		*receivingPortField;
 	IBOutlet NSTextView			*receivingTextView;
 	
 	IBOutlet NSTextField		*ipField;
@@ -53,6 +54,7 @@
 - (IBAction) floatTest:(id)sender;
 - (IBAction) colorTest:(id)sender;
 - (IBAction) stringTest:(id)sender;
+- (IBAction) lengthTest:(id)sender;
 
 - (NSArray *) ipAddressArray;
 

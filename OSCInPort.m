@@ -60,6 +60,10 @@
 	zeroConfDest = nil;
 	
 	bound = [self createSocket];
+	if (!bound)	{
+		[self release];
+		return nil;
+	}
 	
 	return self;
 }
@@ -127,8 +131,11 @@
 	
 	//	if there's a port name, create a NSNetService so devices using bonjour know they can send data to me
 	if (portLabel != nil)	{
-		if (zeroConfDest != nil)
+		NSLog(@"\t\tpublishing zeroConf: %ld, %@ %@",port,CSCopyMachineName(),portLabel);
+		if (zeroConfDest != nil)	{
+			[zeroConfDest stop];
 			[zeroConfDest release];
+		}
 		zeroConfDest = [[NSNetService alloc]
 			initWithDomain:@"local."
 			type:@"_osc._udp."
@@ -136,6 +143,8 @@
 			port:port];
 		[zeroConfDest publish];
 	}
+	else
+		NSLog(@"\t\terr: couldn't make zero conf dest, portLabel was nil");
 }
 - (void) stop	{
 	if ((threadTimer == nil) || (!running))	{
@@ -229,7 +238,7 @@
 		BOOL					skipThisPacket = NO;
 		
 		addrFromLen = sizeof(addrFrom);
-		numBytes = recvfrom(sock, buf, 2048, 0, (struct sockaddr *)&addrFrom, &addrFromLen);
+		numBytes = recvfrom(sock, buf, 8192, 0, (struct sockaddr *)&addrFrom, &addrFromLen);
 		if (numBytes < 1)	{
 			NSLog(@"\t\terr on recvfrom: %i",errno);
 			skipThisPacket = YES;
@@ -398,6 +407,9 @@
 		portLabel = [n copy];
 	
 	[self start];
+}
+- (NSNetService *) zeroConfDest	{
+	return zeroConfDest;
 }
 - (BOOL) bound	{
 	return bound;

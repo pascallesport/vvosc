@@ -8,6 +8,7 @@
 
 #import "OSCZeroConfManager.h"
 #import "OSCManager.h"
+#import "OSCInPort.h"
 
 
 
@@ -72,14 +73,16 @@
 //	it either updates an existing output port or it makes a new output port for the service
 - (void) serviceResolved:(NSNetService *)s	{
 	//NSLog(@"OSCZeroConfManager:serviceResolved:");
-	id					matchingPort = nil;
+	OSCInPort			*matchingInPort = nil;
+	OSCOutPort			*matchingOutPort = nil;
 	NSArray				*addressArray = [s addresses];
 	NSEnumerator		*it = [addressArray objectEnumerator];
 	NSData				*data = nil;
 	struct sockaddr_in	*sock = (struct sockaddr_in *)[data bytes];
 	char				*charPtr = nil;
-	NSString			*ipString;
+	NSString			*ipString = nil;
 	short				port;
+	NSString			*resolvedServiceName = [s name];
 	
 	//	find the ip address & port of the resolved service
 	while ((charPtr == nil) && (data = [it nextObject]))	{
@@ -89,14 +92,13 @@
 			charPtr = inet_ntoa(sock->sin_addr);
 		}
 	}
+	//	make an nsstring from the c string of the ip address string of the resolved service
 	ipString = [NSString stringWithCString:charPtr encoding:NSASCIIStringEncoding];
+	//	get the port of the resolved service
 	port = ntohs(sock->sin_port);
-	//NSLog(@"\t\t%@",[s name]);
-	//NSLog(@"\t\t%@:%ld",ipString,port);
-	
+	//NSLog(@"\t\tresolved service %@ at %@ : %ld",[s name],ipString,port);
 	
 	//	assemble an array with strings of the ip addresses this machine responds to
-	NSArray				*bigIPAddressArray = [[NSHost currentHost] addresses];
 	NSCharacterSet		*charSet;
 	NSRange				charSetRange;
 	NSEnumerator		*addressIt;
@@ -104,47 +106,47 @@
 	NSMutableArray		*IPAddressArray = [NSMutableArray arrayWithCapacity:0];
 	charSet = [NSCharacterSet characterSetWithCharactersInString:@"abcdefABCDEF:%"];
 	//	run through the array of addresses
-	addressIt = [bigIPAddressArray objectEnumerator];
+	addressIt = [[[NSHost currentHost] addresses] objectEnumerator];
 	while (addressPtr = [addressIt nextObject])	{
 		//	if the address has any alpha-numeric characters, don't add it to the list
 		charSetRange = [addressPtr rangeOfCharacterFromSet:charSet];
-		//NSLog(@"%@, %d %d",addressPtr,charSetRange.location,charSetRange.length);
 		if ((charSetRange.length==0) && (charSetRange.location==NSNotFound))	{
 			//	make sure i'm not adding 127.0.0.1!
 			if (![addressPtr isEqualToString:@"127.0.0.1"])
 				[IPAddressArray addObject:addressPtr];
 		}
 	}
-	//	if the services resolves to an ip address associated with this machine, just bail
-	if ([IPAddressArray containsObject:ipString])	{
-		return;
+	
+	
+	//	if my osc manager publishes an input with the same name as the matching service,
+	//	check to see if the port of the resolved service matches the input's port, bail if it does
+	matchingInPort = [oscManager findInputWithZeroConfName:resolvedServiceName];
+	if (matchingInPort != nil)	{
+		if (([matchingInPort port]==port) && ([IPAddressArray containsObject:ipString]))
+			return;
 	}
 	
-	
-	//	if i'm here, the services resolved to an IP address outside this machine
+	//	if i'm here, the service resolved to another osc manager
 	//	try to find an out port in the osc manager with a matching name
-	matchingPort = [oscManager findOutputWithLabel:[s name]];
-	//	if i found a matching out port, update its ip address and port data, then return
-	if (matchingPort != nil)	{
-		[matchingPort
-			setAddressString:ipString
-			andPort:ntohs(sock->sin_port)];
+	matchingOutPort = [oscManager findOutputWithLabel:[s name]];
+	//	if i found a matching out port, update its ip address & port data, then return
+	if (matchingOutPort != nil)	{
+		[matchingOutPort setAddressString:ipString andPort:port];
 		return;
 	}
 	
-	
-	//	if i'm here, i couldn't find an out port with the same name.
-	//	try to find an out port with the same ip/port data
-	matchingPort = [oscManager findOutputWithAddress:ipString andPort:port];
-	//	if i found a matching out port, update its name and return
-	if (matchingPort != nil)	{
-		[matchingPort setPortLabel:[s name]];
+	//	if i'm here, i couldn't find an out port with the same name...try to find an out port with the same ip/port data
+	matchingOutPort = [oscManager findOutputWithAddress:ipString andPort:port];
+	//	if i found a matching out port, update its name & return
+	if (matchingOutPort != nil)	{
+		[matchingOutPort setPortLabel:[s name]];
 		return;
 	}
 	
 	//	if i'm here, i couldn't find an out port with the same address/port
 	//	make a new out port with the relevant data
 	[oscManager createNewOutputToAddress:ipString atPort:port withLabel:[s name]];
+	
 }
 
 

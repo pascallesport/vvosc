@@ -38,7 +38,7 @@
 	short					port;		//	the port number i'm receiving from
 	BOOL					running;	//	whether or not i should keep running
 	BOOL					busy;
-	unsigned char			buf[2049];	//	the socket gets data and dumps it here immediately
+	unsigned char			buf[8192];	//	the socket gets data and dumps it here immediately
 	
 	pthread_mutex_t			lock;
 	NSTimer					*threadTimer;
@@ -79,6 +79,7 @@
 - (void) setPort:(short)n;
 - (NSString *) portLabel;
 - (void) setPortLabel:(NSString *)n;
+- (NSNetService *) zeroConfDest;
 - (BOOL) bound;
 
 - (id) delegate;

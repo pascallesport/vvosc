@@ -28,22 +28,26 @@
 	NSString		*ipFieldString;
 	id				anObj = nil;
 	
+	//	tell the osc manager to make an input to receive from a given port
+	inPort = [manager createNewInput];
+	
 	//	make an out port to my machine's dedicated in port
-	anObj = [manager createNewOutputToAddress:@"127.0.0.1" atPort:1234 withLabel:@"This app"];
+	anObj = [manager createNewOutputToAddress:@"127.0.0.1" atPort:[inPort port] withLabel:@"This app"];
 	if (anObj == nil)
 		NSLog(@"\t\terror creating output A");
 	//	make another out port to hold the manual settings
-	manualOutPort = [manager createNewOutputToAddress:@"127.0.0.1" atPort:1234 withLabel:@"Manual Output"];
+	manualOutPort = [manager createNewOutputToAddress:@"127.0.0.1" atPort:[inPort port] withLabel:@"Manual Output"];
 	if (manualOutPort == nil)
 		NSLog(@"\t\terror creating output B");
-	//	tell the osc manager to make an input to receive from a given port
-	inPort = [manager createNewInputForPort:1234];
-	if (inPort == nil)
-		NSLog(@"\t\terror creating input");
+	
 	
 	//	populate the IP field string with  this machine's IP and the port of my dedicated input
-	ipFieldString = [NSString stringWithFormat:@"%@ port 1234",[[self ipAddressArray] objectAtIndex:0]];
+	ipFieldString = [NSString stringWithFormat:@"%@, port",[[self ipAddressArray] objectAtIndex:0]];
 	[receivingAddressField setStringValue:ipFieldString];
+	//	populate the receiving port field with the in port's port
+	[receivingPortField setIntValue:[inPort port]];
+	//	populate the sending port field from the current manual out port
+	[portField setIntValue:[manualOutPort port]];
 	
 	//	register to receive notifications that the list of osc outputs has changed
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(oscOutputsChangedNotification:) name:VVOSCOutPortsChangedNotification object:nil];
@@ -127,12 +131,25 @@
 
 - (IBAction) setupFieldUsed:(id)sender	{
 	//NSLog(@"AppController:setupFieldUsed:");
-	//	push the settings on the ui items to the manualOutPort, which is the only out port sending data
+	//	first take care of the port (there's only one) which is receiving data
+	//	push the settings in the port field to the in port
+	[inPort setPort:[receivingPortField intValue]];
+	//	push the actual port i'm receiving on to the text field (if anything went wrong when changing the port, it should revert to the last port #)
+	[receivingPortField setIntValue:[inPort port]];
+	
+	//	now take care of the ports which relate to sending data
+	//	push the settings on the ui items to the manualOutPort, which is the only out port actually sending data
 	[manualOutPort setAddressString:[ipField stringValue]];
 	[ipField setStringValue:[manualOutPort addressString]];
-	
 	[manualOutPort setPort:[portField intValue]];
-	[portField setStringValue:[NSString stringWithFormat:@"%d",[manualOutPort port]]];
+	//[portField setStringValue:[NSString stringWithFormat:@"%d",[manualOutPort port]]];
+	[portField setIntValue:[manualOutPort port]];
+	//	since the port this app receives on may have changed, i have to adjust the out port for the "This app" output so it continues to point to the correct address
+	id			anObj = [manager findOutputWithLabel:@"This app"];
+	if (anObj != nil)	{
+		[anObj setPort:[receivingPortField intValue]];
+	}
+	
 	//	select the "manual output" item in the pop-up button
 	[outputDestinationButton selectItemWithTitle:@"Manual Output"];
 }
@@ -370,6 +387,25 @@
 	pack = [OSCPacket createWithContent:mainBundle];
 	//	tell the out port to send the packet
 	[manualOutPort sendThisPacket:pack];
+}
+- (IBAction) lengthTest:(id)sender	{
+	NSLog(@"AppController:lengthTest:");
+	OSCBundle		*mainBundle = [OSCBundle create];
+	NSString		*addressPath = [NSString stringWithString:@"/aSingleButFairlyLongAddressPath"];
+	OSCMessage		*msgPtr;
+	int				i;
+	OSCPacket		*pack;
+	
+	for (i=0; i<100; ++i)	{
+		msgPtr = [OSCMessage createMessageToAddress:addressPath];
+		[msgPtr addFloat:(i/100.0)];
+		[mainBundle addElement:msgPtr];
+	}
+	NSLog(@"\t\tdone making bundle");
+	pack = [OSCPacket createWithContent:mainBundle];
+	NSLog(@"\t\tdone making packet");
+	[manualOutPort sendThisPacket:pack];
+	NSLog(@"\t\tdone sending packet");
 }
 
 - (NSArray *) ipAddressArray	{

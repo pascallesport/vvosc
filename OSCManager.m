@@ -104,12 +104,13 @@
 		if ((!foundPortConflict) && (!foundNameConflict))	{
 			Class			inPortClass = [self inPortClass];
 			
-			returnMe = [[[inPortClass alloc] initWithPort:p labelled:l] autorelease];
+			returnMe = [[inPortClass alloc] initWithPort:p labelled:l];
 			
 			if (returnMe != nil)	{
 				[returnMe setDelegate:self];
 				[returnMe start];
 				[inPortArray addObject:returnMe];
+				[returnMe autorelease];
 			}
 		}
 	pthread_rwlock_unlock(&inPortLock);
@@ -185,10 +186,11 @@
 		if (!foundNameConflict)	{
 			Class			outPortClass = [self outPortClass];
 			
-			returnMe = [[[outPortClass alloc] initWithAddress:a andPort:p labelled:l] autorelease];
+			returnMe = [[outPortClass alloc] initWithAddress:a andPort:p labelled:l];
 			
 			if (returnMe != nil)	{
 				[outPortArray addObject:returnMe];
+				[returnMe autorelease];
 			}
 		}
 	pthread_rwlock_unlock(&outPortLock);
@@ -367,6 +369,27 @@
 		returnMe = [outPortArray objectAtIndex:i];
 	pthread_rwlock_unlock(&outPortLock);
 	return returnMe;
+}
+- (OSCInPort *) findInputWithZeroConfName:(NSString *)n	{
+	if (n == nil)
+		return nil;
+	
+	id				foundPort = nil;
+	NSEnumerator	*it;
+	id				anObj;
+	id				zeroConfDest = nil;
+	
+	pthread_rwlock_rdlock(&inPortLock);
+		it = [inPortArray objectEnumerator];
+		while ((anObj = [it nextObject]) && (foundPort == nil))	{
+			zeroConfDest = [anObj zeroConfDest];
+			if (zeroConfDest != nil)	{
+				if ([n isEqualToString:[zeroConfDest name]])
+					foundPort = anObj;
+			}
+		}
+	pthread_rwlock_unlock(&inPortLock);
+	return foundPort;
 }
 - (void) removeInput:(id)p	{
 	if (p == nil)
