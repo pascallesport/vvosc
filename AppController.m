@@ -401,11 +401,11 @@
 		[msgPtr addFloat:(i/100.0)];
 		[mainBundle addElement:msgPtr];
 	}
-	NSLog(@"\t\tdone making bundle");
+	//NSLog(@"\t\tdone making bundle");
 	pack = [OSCPacket createWithContent:mainBundle];
-	NSLog(@"\t\tdone making packet");
+	//NSLog(@"\t\tdone making packet");
 	[manualOutPort sendThisPacket:pack];
-	NSLog(@"\t\tdone sending packet");
+	//NSLog(@"\t\tdone sending packet");
 }
 
 - (NSArray *) ipAddressArray	{

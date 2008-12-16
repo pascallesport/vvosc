@@ -131,7 +131,7 @@
 	
 	//	if there's a port name, create a NSNetService so devices using bonjour know they can send data to me
 	if (portLabel != nil)	{
-		NSLog(@"\t\tpublishing zeroConf: %ld, %@ %@",port,CSCopyMachineName(),portLabel);
+		//NSLog(@"\t\tpublishing zeroConf: %ld, %@ %@",port,CSCopyMachineName(),portLabel);
 		if (zeroConfDest != nil)	{
 			[zeroConfDest stop];
 			[zeroConfDest release];
