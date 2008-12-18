@@ -6,7 +6,12 @@
 //  Copyright 2008 __MyCompanyName__. All rights reserved.
 //
 
+#if IPHONE
+#import <UIKit/UIKit.h>
+#else
 #import <Cocoa/Cocoa.h>
+#endif
+
 #import <pthread.h>
 
 
@@ -24,7 +29,11 @@
 
 - (void) addInt:(int)n;
 - (void) addFloat:(float)n;
+#if IPHONE
+- (void) addColor:(UIColor *)c;
+#else
 - (void) addColor:(NSColor *)c;
+#endif
 - (void) addBOOL:(BOOL)n;
 - (void) addString:(NSString *)n;
 

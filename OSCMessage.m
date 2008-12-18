@@ -15,6 +15,9 @@
 @implementation OSCMessage
 
 
+- (NSString *) description	{
+	return [NSString stringWithFormat:@"<OSCMessage: %@\n%@",address,argArray];
+}
 + (void) parseRawBuffer:(unsigned char *)b ofMaxLength:(int)l toInPort:(id)p	{
 	//NSLog(@"OSCMessage:parseRawBuffer:ofMaxLength:toInPort:");
 	if ((b == nil) || (l == 0) || (p == NULL))
@@ -144,6 +147,16 @@
 				break;
 			case 'r':			//	32 bit RGBA color
 				//NSLog(@"%d, %d, %d, %d",*((unsigned char *)b+tmpIndex),*((unsigned char *)b+tmpIndex+1),*((unsigned char *)b+tmpIndex+2),*((unsigned char *)b+tmpIndex+3));
+
+#if IPHONE
+				[p
+					addValue:[UIColor
+						colorWithRed:b[tmpIndex]/255.0
+						green:b[tmpIndex+1]/255.0
+						blue:b[tmpIndex+2]/255.0
+						alpha:b[tmpIndex+3]/255.0]
+					toAddressPath:address];
+#else
 				[p
 					addValue:[NSColor
 						colorWithCalibratedRed:b[tmpIndex]/255.0
@@ -151,6 +164,7 @@
 						blue:b[tmpIndex+2]/255.0
 						alpha:b[tmpIndex+3]/255.0]
 					toAddressPath:address];
+#endif
 				tmpIndex = tmpIndex + 4;
 				break;
 			case 'm':			//	4 byte MIDI message.  bytes from MSB to LSB are: port id, status byte, data1, data2
@@ -221,7 +235,12 @@
 	[argArray addObject:[NSNumber numberWithFloat:n]];
 }
 
+#if IPHONE
+- (void) addColor:(UIColor *)c	{
+#else
 - (void) addColor:(NSColor *)c	{
+#endif
+
 	if (c != nil)	{
 		[typeArray addObject:[NSString stringWithString:@"r"]];
 		[argArray addObject:c];
@@ -335,6 +354,10 @@
 	unsigned char		tmpChar = 0;
 	long				tmpLong;
 	unsigned char		*charPtr = NULL;
+#if IPHONE
+	CGColorRef			tmpColor;
+	const CGFloat		*tmpCGFloatPtr;
+#endif
 	
 	
 	//	write the address (round up to nearest 4 bytes)
@@ -396,6 +419,20 @@
 			case 'c':			//	an ascii character, sent as 32 bits
 				break;
 			case 'r':			//	32 bit RGBA color
+
+#if IPHONE
+				tmpColor = [argPtr CGColor];
+				tmpCGFloatPtr = CGColorGetComponents(tmpColor);
+				
+				tmpChar = *(tmpCGFloatPtr) * 255.0;
+				b[writeOffset] = tmpChar;
+				tmpChar = *(tmpCGFloatPtr+1) * 255.0;
+				b[writeOffset+1] = tmpChar;
+				tmpChar = *(tmpCGFloatPtr+2) * 255.0;
+				b[writeOffset+2] = tmpChar;
+				tmpChar = *(tmpCGFloatPtr+3) * 255.0;
+				b[writeOffset+3] = tmpChar;
+#else
 				tmpChar = [argPtr redComponent] * 255.0;
 				b[writeOffset] = tmpChar;
 				tmpChar = [argPtr greenComponent] * 255.0;
@@ -404,6 +441,7 @@
 				b[writeOffset+2] = tmpChar;
 				tmpChar = [argPtr alphaComponent] * 255.0;
 				b[writeOffset+3] = tmpChar;
+#endif
 				
 				writeOffset = writeOffset + 4;
 				break;

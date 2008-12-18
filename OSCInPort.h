@@ -6,7 +6,12 @@
 //  Copyright 2008 __MyCompanyName__. All rights reserved.
 //
 
+#if IPHONE
+#import <UIKit/UIKit.h>
+#else
 #import <Cocoa/Cocoa.h>
+#endif
+
 
 //#import <sys/types.h>
 //#import <sys/socket.h>

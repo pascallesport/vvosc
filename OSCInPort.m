@@ -139,7 +139,11 @@
 		zeroConfDest = [[NSNetService alloc]
 			initWithDomain:@"local."
 			type:@"_osc._udp."
+#if IPHONE
+			name:nil
+#else
 			name:[NSString stringWithFormat:@"%@ %@",CSCopyMachineName(),portLabel]
+#endif
 			port:port];
 		[zeroConfDest publish];
 	}

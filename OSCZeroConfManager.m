@@ -100,11 +100,15 @@
 	
 	//	assemble an array with strings of the ip addresses this machine responds to
 	NSCharacterSet		*charSet;
+	NSMutableArray		*IPAddressArray = [NSMutableArray arrayWithCapacity:0];
+	charSet = [NSCharacterSet characterSetWithCharactersInString:@"abcdefABCDEF:%"];
+#if IPHONE
+	
+#else
 	NSRange				charSetRange;
 	NSEnumerator		*addressIt;
 	NSString			*addressPtr;
-	NSMutableArray		*IPAddressArray = [NSMutableArray arrayWithCapacity:0];
-	charSet = [NSCharacterSet characterSetWithCharactersInString:@"abcdefABCDEF:%"];
+	
 	//	run through the array of addresses
 	addressIt = [[[NSHost currentHost] addresses] objectEnumerator];
 	while (addressPtr = [addressIt nextObject])	{
@@ -116,7 +120,7 @@
 				[IPAddressArray addObject:addressPtr];
 		}
 	}
-	
+#endif
 	
 	//	if my osc manager publishes an input with the same name as the matching service,
 	//	check to see if the port of the resolved service matches the input's port, bail if it does
