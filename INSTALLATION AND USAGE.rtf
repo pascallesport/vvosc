@@ -6,32 +6,32 @@
 
 \f0\fs48 \cf0 INSTALLATION INSTRUCTIONS
 \fs24 \
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 \cf0 \
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
 
-\b\fs28 If you just want the OSC test app:\
-
-\fs24 1)- open the VVOSC project in xcode.  select the "ALL" target and make sure the build mode is set to "Release"\
-2)- Click "build", wait for xcode to finish compiling.  the test app will be in "/build/Release/VVOSCTester".
-\fs28 \
-
-\b0\fs24 \
+\b \cf0 If you just want the OSC test app:
+\b0 \
+1)- open the VVOSC project in xcode.\
+2)- select the "VVOSCTester" target, make sure the build mode is set to "Release".\
+3)- build the project.  the test app should be in "/build/Release/"\
 \
 
-\b\fs28 Developers:
-\b0\fs24 \
-if you're going to work with VVOSC, you're either going to be working with the framework or the SDK (you don't need both).  if you're only making mac applications you can use the framework.  if you're going to be making iphone apps, you need to build the SDK.\
+\b If you want to use VVOSC to develop software...
+\b0 \
+you're either going to be working with the framework or the SDK (you don't need both).  if you're only making mac applications you can use the framework.  if you're going to be making iphone apps, you need to build the SDK.\
 \
 
 \b\fs28 Mac Applications (framework):
 \b0\fs24 \
 
-\b 1)- building the framework
+\b 1)- building the VVOSC framework
 \b0 \
 	a)- open the VVOSC project in xcode.  select the "ALL" target, make sure the build mode is set to "Release"\
 	b)- build the project.  "VVOSC.framework" should now exist in "/build/Release/"\
 
-\b 2)- using the framework in your project
+\b 2)- using the VVOSC framework in your project
 \b0 \
 	a)- open your project file in xcode, drag "VVOSC.framework" into it\
 	b)- in the left-hand list in your xcode project window, select your application/target.  from xcode's project menu, add a new copy files build phase to your target.\
@@ -42,14 +42,17 @@ if you're going to work with VVOSC, you're either going to be working with the f
 \b\fs28 iPhone and Mac Applications (SDK):
 \b0\fs24 \
 
-\b 1)- building the SDK
+\b 1)- if you haven't already, install the iPhone SDK.\
+2)- building the VVOSC SDK
 \b0 \
 	a)- open the VVOSC project in xcode.  select the "ALL" target, make sure the build mode is set to "Release"\
 	b)- build the project.  the SDK has now been compiled, and is in your build directory.\
 	c)- select the "INSTALL IPHONE SDK" target, and build it.  this copies the SDK to "~/Library/SDKs/VVOSC/"\
 
-\b 2)- using the SDK with your project
+\b 3)- using the VVOSC SDK with your project
 \b0 \
 	a)- open your project file in xcode.  double-click your application/target in the left-hand list of your project window (or select it and get its info).  choose the "build" tab.\
 	b)- find the "Additional SDKs" option, and add "$HOME/Library/SDKs/VVOSC/$(PLATFORM_NAME).sdk"\
-	c)- find the "Other Linker Flags" option, and add "-ObjC -lVVOSC".}
+	c)- find the "Other Linker Flags" option, and add "-ObjC -lVVOSC".\
+\
+}
