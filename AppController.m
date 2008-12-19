@@ -159,14 +159,12 @@
 	OSCBundle		*bundle = nil;
 	OSCPacket		*packet = nil;
 	
-	//	make a bundle
-	bundle = [OSCBundle create];
+	
 	//	make a message to the specified address
 	msg = [OSCMessage createMessageToAddress:[oscAddressField stringValue]];
-	//	add the message to the bundle (i can still add to the msg/bundle)
-	[bundle addElement:msg];
 	
 	
+	//	fill the message with values from the relevant UI item
 	if (sender == floatSlider)	{
 		[msg addFloat:[floatSlider floatValue]];
 	}
@@ -186,8 +184,21 @@
 		[msg addString:[stringField stringValue]];
 	}
 	
-	//	make a packet from the buffer- as soon as you do this, the actual packet is made
-	packet = [OSCPacket createWithContent:bundle];
+	//	if i'm sending as a bundle...
+	if ([bundleMsgsButton intValue] == NSOnState)	{
+		//	make a bundle
+		bundle = [OSCBundle create];
+		//	add the message to the bundle
+		[bundle addElement:msg];
+		//	make the packet from the bundle
+		packet = [OSCPacket createWithContent:bundle];
+	}
+	//	else if i'm just sending the msg
+	else	{
+		//	make the packet from the msg
+		packet = [OSCPacket createWithContent:msg];
+	}
+	
 	//	tell the out port to send the packet
 	[manualOutPort sendThisPacket:packet];
 }

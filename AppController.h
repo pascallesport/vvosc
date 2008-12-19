@@ -23,6 +23,7 @@
 	IBOutlet NSTextField		*ipField;
 	IBOutlet NSTextField		*portField;
 	IBOutlet NSTextField		*oscAddressField;
+	IBOutlet NSButton			*bundleMsgsButton;
 	
 	IBOutlet NSSlider			*floatSlider;
 	IBOutlet NSTextField		*intField;
