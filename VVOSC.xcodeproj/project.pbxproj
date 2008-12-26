@@ -7,21 +7,33 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		962BCA060EFAE639006C3EFA /* INSTALL IPHONE SDK */ = {
+		962BCA060EFAE639006C3EFA /* Install VVOSC SDK */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 962BCA150EFAE662006C3EFA /* Build configuration list for PBXAggregateTarget "INSTALL IPHONE SDK" */;
+			buildConfigurationList = 962BCA150EFAE662006C3EFA /* Build configuration list for PBXAggregateTarget "Install VVOSC SDK" */;
 			buildPhases = (
 				962BCA050EFAE639006C3EFA /* ShellScript */,
 			);
 			dependencies = (
 				962BCA140EFAE644006C3EFA /* PBXTargetDependency */,
 			);
-			name = "INSTALL IPHONE SDK";
+			name = "Install VVOSC SDK";
 			productName = "INSTALL SDK";
 		};
-		96EA49330EFAA91400AB3763 /* Assemble SDK */ = {
+		963059C30F03305400517B22 /* ALL */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 96EA49370EFAA91E00AB3763 /* Build configuration list for PBXAggregateTarget "Assemble SDK" */;
+			buildConfigurationList = 963059D30F03308A00517B22 /* Build configuration list for PBXAggregateTarget "ALL" */;
+			buildPhases = (
+			);
+			dependencies = (
+				963059C70F03306900517B22 /* PBXTargetDependency */,
+				963059C90F03307200517B22 /* PBXTargetDependency */,
+			);
+			name = ALL;
+			productName = ALL;
+		};
+		96EA49330EFAA91400AB3763 /* Assemble VVOSC SDK */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 96EA49370EFAA91E00AB3763 /* Build configuration list for PBXAggregateTarget "Assemble VVOSC SDK" */;
 			buildPhases = (
 				96EA49320EFAA91400AB3763 /* ShellScript */,
 			);
@@ -31,23 +43,8 @@
 				96EF82DC0EFAB4A700E8AF16 /* PBXTargetDependency */,
 				96A059E30EFAD06500E82377 /* PBXTargetDependency */,
 			);
-			name = "Assemble SDK";
+			name = "Assemble VVOSC SDK";
 			productName = "Assemble Frameworks";
-		};
-		96EF82B00EFAB1F600E8AF16 /* ALL */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = 96EF82C40EFAB28000E8AF16 /* Build configuration list for PBXAggregateTarget "ALL" */;
-			buildPhases = (
-			);
-			dependencies = (
-				96EF82B50EFAB21300E8AF16 /* PBXTargetDependency */,
-				96EF82B70EFAB21500E8AF16 /* PBXTargetDependency */,
-				96EF82D10EFAB34B00E8AF16 /* PBXTargetDependency */,
-				96EF82D30EFAB34D00E8AF16 /* PBXTargetDependency */,
-				96EF82D50EFAB35000E8AF16 /* PBXTargetDependency */,
-			);
-			name = ALL;
-			productName = ALL;
 		};
 /* End PBXAggregateTarget section */
 
@@ -149,6 +146,20 @@
 			remoteGlobalIDString = 96EA49330EFAA91400AB3763;
 			remoteInfo = "Assemble SDK";
 		};
+		963059C60F03306900517B22 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 963E71CF0E993BB9007CF9D8;
+			remoteInfo = VVOSCTester;
+		};
+		963059C80F03307200517B22 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 962BCA060EFAE639006C3EFA;
+			remoteInfo = "Install VVOSC SDK";
+		};
 		96A059E20EFAD06500E82377 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
@@ -169,41 +180,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = "VVOSC-OS X";
-		};
-		96EF82B40EFAB21300E8AF16 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
-			remoteInfo = "VVOSC-OS X";
-		};
-		96EF82B60EFAB21500E8AF16 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 963E71CF0E993BB9007CF9D8;
-			remoteInfo = VVOSCTester;
-		};
-		96EF82D00EFAB34B00E8AF16 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 96EB122B0EFAA64300B2D581;
-			remoteInfo = "VVOSC-iPhone sim";
-		};
-		96EF82D20EFAB34D00E8AF16 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 967FDE3B0EFAA6A600BCF87E;
-			remoteInfo = "VVOSC-iPhone dev";
-		};
-		96EF82D40EFAB35000E8AF16 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 96EA49330EFAA91400AB3763;
-			remoteInfo = "Assemble Frameworks";
 		};
 		96EF82D90EFAB4A500E8AF16 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -607,14 +583,14 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				96EF82B00EFAB1F600E8AF16 /* ALL */,
-				8DC2EF4F0486A6940098B216 /* VVOSC framework */,
 				963E71CF0E993BB9007CF9D8 /* VVOSCTester */,
+				8DC2EF4F0486A6940098B216 /* VVOSC framework */,
+				96EA49330EFAA91400AB3763 /* Assemble VVOSC SDK */,
+				962BCA060EFAE639006C3EFA /* Install VVOSC SDK */,
 				96EB122B0EFAA64300B2D581 /* VVOSC-iPhone sim */,
 				967FDE3B0EFAA6A600BCF87E /* VVOSC-iPhone dev */,
 				96A059B30EFACDDB00E82377 /* VVOSC-os x */,
-				96EA49330EFAA91400AB3763 /* Assemble SDK */,
-				962BCA060EFAE639006C3EFA /* INSTALL IPHONE SDK */,
+				963059C30F03305400517B22 /* ALL */,
 			);
 		};
 /* End PBXProject section */
@@ -748,8 +724,18 @@
 /* Begin PBXTargetDependency section */
 		962BCA140EFAE644006C3EFA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 96EA49330EFAA91400AB3763 /* Assemble SDK */;
+			target = 96EA49330EFAA91400AB3763 /* Assemble VVOSC SDK */;
 			targetProxy = 962BCA130EFAE644006C3EFA /* PBXContainerItemProxy */;
+		};
+		963059C70F03306900517B22 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 963E71CF0E993BB9007CF9D8 /* VVOSCTester */;
+			targetProxy = 963059C60F03306900517B22 /* PBXContainerItemProxy */;
+		};
+		963059C90F03307200517B22 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 962BCA060EFAE639006C3EFA /* Install VVOSC SDK */;
+			targetProxy = 963059C80F03307200517B22 /* PBXContainerItemProxy */;
 		};
 		96A059E30EFAD06500E82377 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -765,31 +751,6 @@
 			isa = PBXTargetDependency;
 			target = 8DC2EF4F0486A6940098B216 /* VVOSC framework */;
 			targetProxy = 96EA496A0EFAAE2A00AB3763 /* PBXContainerItemProxy */;
-		};
-		96EF82B50EFAB21300E8AF16 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 8DC2EF4F0486A6940098B216 /* VVOSC framework */;
-			targetProxy = 96EF82B40EFAB21300E8AF16 /* PBXContainerItemProxy */;
-		};
-		96EF82B70EFAB21500E8AF16 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 963E71CF0E993BB9007CF9D8 /* VVOSCTester */;
-			targetProxy = 96EF82B60EFAB21500E8AF16 /* PBXContainerItemProxy */;
-		};
-		96EF82D10EFAB34B00E8AF16 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 96EB122B0EFAA64300B2D581 /* VVOSC-iPhone sim */;
-			targetProxy = 96EF82D00EFAB34B00E8AF16 /* PBXContainerItemProxy */;
-		};
-		96EF82D30EFAB34D00E8AF16 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 967FDE3B0EFAA6A600BCF87E /* VVOSC-iPhone dev */;
-			targetProxy = 96EF82D20EFAB34D00E8AF16 /* PBXContainerItemProxy */;
-		};
-		96EF82D50EFAB35000E8AF16 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 96EA49330EFAA91400AB3763 /* Assemble SDK */;
-			targetProxy = 96EF82D40EFAB35000E8AF16 /* PBXContainerItemProxy */;
 		};
 		96EF82DA0EFAB4A500E8AF16 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -897,6 +858,27 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PRODUCT_NAME = "INSTALL SDK";
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		963059C40F03305500517B22 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = ALL;
+			};
+			name = Debug;
+		};
+		963059C50F03305500517B22 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PRODUCT_NAME = ALL;
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -1075,37 +1057,6 @@
 			};
 			name = Release;
 		};
-		96EF82B20EFAB1F600E8AF16 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					i386,
-					ppc,
-					armv6,
-				);
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				PRODUCT_NAME = ALL;
-			};
-			name = Debug;
-		};
-		96EF82B30EFAB1F600E8AF16 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					i386,
-					ppc,
-					armv6,
-				);
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				PRODUCT_NAME = ALL;
-				ZERO_LINK = NO;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1127,11 +1078,20 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		962BCA150EFAE662006C3EFA /* Build configuration list for PBXAggregateTarget "INSTALL IPHONE SDK" */ = {
+		962BCA150EFAE662006C3EFA /* Build configuration list for PBXAggregateTarget "Install VVOSC SDK" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				962BCA110EFAE639006C3EFA /* Debug */,
 				962BCA120EFAE639006C3EFA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		963059D30F03308A00517B22 /* Build configuration list for PBXAggregateTarget "ALL" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				963059C40F03305500517B22 /* Debug */,
+				963059C50F03305500517B22 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1163,7 +1123,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		96EA49370EFAA91E00AB3763 /* Build configuration list for PBXAggregateTarget "Assemble SDK" */ = {
+		96EA49370EFAA91E00AB3763 /* Build configuration list for PBXAggregateTarget "Assemble VVOSC SDK" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				96EA49340EFAA91400AB3763 /* Debug */,
@@ -1177,15 +1137,6 @@
 			buildConfigurations = (
 				96EB122E0EFAA64300B2D581 /* Debug */,
 				96EB122F0EFAA64300B2D581 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		96EF82C40EFAB28000E8AF16 /* Build configuration list for PBXAggregateTarget "ALL" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				96EF82B20EFAB1F600E8AF16 /* Debug */,
-				96EF82B30EFAB1F600E8AF16 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -40,7 +40,7 @@
 	BOOL					bound;		//	whether or not the socket is bound
 	int						sock;		//	socket file descriptor.  remember, everything in unix is files!
 	struct sockaddr_in		addr;		//	struct that describes *my* address (this is an in port)
-	short					port;		//	the port number i'm receiving from
+	unsigned short			port;		//	the port number i'm receiving from
 	BOOL					running;	//	whether or not i should keep running
 	BOOL					busy;
 	unsigned char			buf[8192];	//	the socket gets data and dumps it here immediately
@@ -58,10 +58,10 @@
 	id						delegate;	//	my delegate gets notified of incoming messages
 }
 
-+ (id) createWithPort:(short)p;
-+ (id) createWithPort:(short)p labelled:(NSString *)n;
-- (id) initWithPort:(short)p;
-- (id) initWithPort:(short)p labelled:(NSString *)n;
++ (id) createWithPort:(unsigned short)p;
++ (id) createWithPort:(unsigned short)p labelled:(NSString *)n;
+- (id) initWithPort:(unsigned short)p;
+- (id) initWithPort:(unsigned short)p labelled:(NSString *)n;
 
 - (void) prepareToBeDeleted;
 
@@ -80,8 +80,8 @@
 
 - (void) addValue:(id)val toAddressPath:(NSString *)p;
 
-- (short) port;
-- (void) setPort:(short)n;
+- (unsigned short) port;
+- (void) setPort:(unsigned short)n;
 - (NSString *) portLabel;
 - (void) setPortLabel:(NSString *)n;
 - (NSNetService *) zeroConfDest;

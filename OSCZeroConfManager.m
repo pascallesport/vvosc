@@ -81,7 +81,7 @@
 	struct sockaddr_in	*sock = (struct sockaddr_in *)[data bytes];
 	char				*charPtr = nil;
 	NSString			*ipString = nil;
-	short				port;
+	unsigned short		port;
 	NSString			*resolvedServiceName = [s name];
 	
 	//	find the ip address & port of the resolved service

@@ -17,22 +17,22 @@
 - (NSString *) description	{
 	return [NSString stringWithFormat:@"<OSCInPort: %ld>",port];
 }
-+ (id) createWithPort:(short)p	{
++ (id) createWithPort:(unsigned short)p	{
 	OSCInPort		*returnMe = [[OSCInPort alloc] initWithPort:p labelled:nil];
 	if (returnMe == nil)
 		return nil;
 	return [returnMe autorelease];
 }
-+ (id) createWithPort:(short)p labelled:(NSString *)l	{
++ (id) createWithPort:(unsigned short)p labelled:(NSString *)l	{
 	OSCInPort		*returnMe = [[OSCInPort alloc] initWithPort:p labelled:l];
 	if (returnMe == nil)
 		return nil;
 	return [returnMe autorelease];
 }
-- (id) initWithPort:(short)p	{
+- (id) initWithPort:(unsigned short)p	{
 	return [self initWithPort:p labelled:nil];
 }
-- (id) initWithPort:(short)p labelled:(NSString *)l	{
+- (id) initWithPort:(unsigned short)p labelled:(NSString *)l	{
 	pthread_mutexattr_t		attr;
 	
 	self = [super init];
@@ -344,14 +344,14 @@
 	pthread_mutex_unlock(&lock);
 }
 
-- (short) port	{
+- (unsigned short) port	{
 	return port;
 }
-- (void) setPort:(short)n	{
+- (void) setPort:(unsigned short)n	{
 	if (n == port)
 		return;
 	
-	short			oldPort = port;
+	unsigned short		oldPort = port;
 	
 	//	stop & close my socket
 	[self stop];

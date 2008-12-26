@@ -12,7 +12,7 @@
 @implementation OSCInPortRetainsRaw
 
 
-- (id) initWithPort:(short)p labelled:(NSString *)l	{
+- (id) initWithPort:(unsigned short)p labelled:(NSString *)l	{
 	//NSLog(@"OSCInPortRetainsRaw:initWithPort:labelled:");
 	self = [super initWithPort:p labelled:l];
 	if (self != nil)	{

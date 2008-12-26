@@ -17,13 +17,13 @@
 - (NSString *) description	{
 	return [NSString stringWithFormat:@"<OSCOutPort %@:%ld>",addressString,port];
 }
-+ (id) createWithAddress:(NSString *)a andPort:(short)p	{
++ (id) createWithAddress:(NSString *)a andPort:(unsigned short)p	{
 	OSCOutPort		*returnMe = [[OSCOutPort alloc] initWithAddress:a andPort:p];
 	if (returnMe == nil)
 		return nil;
 	return [returnMe autorelease];
 }
-+ (id) createWithAddress:(NSString *)a andPort:(short)p labelled:(NSString *)l	{
++ (id) createWithAddress:(NSString *)a andPort:(unsigned short)p labelled:(NSString *)l	{
 	OSCOutPort		*returnMe = [[OSCOutPort alloc] initWithAddress:a andPort:p labelled:l];
 	if (returnMe == nil)
 		return nil;
@@ -31,10 +31,10 @@
 }
 
 
-- (id) initWithAddress:(NSString *)a andPort:(short)p	{
+- (id) initWithAddress:(NSString *)a andPort:(unsigned short)p	{
 	return [self initWithAddress:a andPort:p labelled:nil];
 }
-- (id) initWithAddress:(NSString *)a andPort:(short)p labelled:(NSString *)l	{
+- (id) initWithAddress:(NSString *)a andPort:(unsigned short)p labelled:(NSString *)l	{
 	if ((a==nil) || (p<1024))	{
 		[self release];
 		return nil;
@@ -158,14 +158,14 @@
 	addressString = [n retain];
 	[self createSocket];
 }
-- (void) setPort:(short)p	{
+- (void) setPort:(unsigned short)p	{
 	if ((p < 1024) || (p == port))
 		return;
 	sock = -1;
 	port = p;
 	[self createSocket];
 }
-- (void) setAddressString:(NSString *)n andPort:(short)p	{
+- (void) setAddressString:(NSString *)n andPort:(unsigned short)p	{
 	//	if the passed address is nil or the port is < 1024, return immediately
 	if ((n == nil) || (p < 1024))
 		return;
@@ -194,7 +194,7 @@
 	}
 }
 
-- (short) port	{
+- (unsigned short) port	{
 	return port;
 }
 - (NSString *) addressString	{
