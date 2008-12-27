@@ -218,19 +218,25 @@
 /*===================================================================================*/
 #pragma mark --------------------- main osc callback
 /*------------------------------------*/
-/*
-	important: this method will be called from any of a number of threads- each port is in its own thread!
+/*!
+	this method is passed a dict; the keys of the dict are the address paths, and the object at each key is an array which contains the values passed to the address path.  this is referred to as "coalesced" updates because the values are organized by address path.
 	
-	typically, the manager is the input port's delegate- input ports tell delegates
-	when they receive data.  by default, the manager is the input port's delegate- so
-	this method will be called by default if your input port doesn't have another delegate.
-	as such, this method tells the manager's delegate about any received osc messages.
+	important: this method will be called from any of a number of threads- each port is running in its own thread!
+	
+	typically, the manager is the input port's delegate- input ports tell delegates when they receive data.  by default, the manager is the input port's delegate- so this method will be called by default if your input port doesn't have another delegate.  as such, this method tells the manager's delegate about any received osc messages.
 */
 - (void) oscMessageReceived:(NSDictionary *)d	{
 	//NSLog(@"OSCManager:oscMessageReceived: ... %@",d);
 	if ((delegate != nil) && ([delegate respondsToSelector:@selector(oscMessageReceived:)]))
 		[delegate oscMessageReceived:d];
 }
+/*!
+	the address (a) is the address path, (v) is the value passed to it.  this method is called immediately, as the incoming OSC data is received- no attempt is made to coalesce the updates and sort them by address.
+	
+	important: this method will be called from any of a number of threads- each port is running in its own thread!
+	
+	typically, the manager is the input port's delegate- input ports tell delegates when they receive data.  by default, the manager is the input port's delegate- so this method will be called by default if your input port doesn't have another delegate.  as such, this method tells the manager's delegate about any received osc messages.
+*/
 - (void) receivedOSCVal:(id)v forAddress:(NSString *)a	{
 	//NSLog(@"OSCManager:receivedOSCVal:forAddress: ... %@:%@",a,v);
 	if ((delegate != nil) && ([delegate respondsToSelector:@selector(receivedOSCVal:forAddress:)]))
@@ -425,9 +431,8 @@
 /*===================================================================================*/
 #pragma mark --------------------- subclassable methods for customization
 /*------------------------------------*/
-/*
-	these methods exist to make it easier to sub-class the osc manager and
-	use your own custom subclasses of OSCInPort/OSCOutPort
+/*!
+	by default, this method returns [OSCInPort class].  it’s called when creating an input port. this method exists so if you subclass OSCInPort you can override this method to have your manager create your custom subclass with the default port creation methods
 */
 - (id) inPortClass	{
 	return [OSCInPort class];
@@ -435,6 +440,9 @@
 - (NSString *) inPortLabelBase	{
 	return [NSString stringWithString:@"VVOSC"];
 }
+/*!
+	by default, this method returns [OSCOutPort class].  it’s called when creating an input port. this method exists so if you subclass OSCOutPort you can override this method to have your manager create your custom subclass with the default port creation methods
+*/
 - (id) outPortClass	{
 	return [OSCOutPort class];
 }

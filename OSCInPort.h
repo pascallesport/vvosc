@@ -34,7 +34,12 @@
 - (void) receivedOSCVal:(id)v forAddress:(NSString *)a;
 @end
 
+///	This class manages everything needed to receive OSC data on a given port
+/*!
+OSCInPorts are created by the OSCManager- you should never have to explicitly handle their creation or destruction.  each OSCInPort is running in its own separate thread- so make sure anything called as a result of received OSC input is thread-safe!
 
+the documentation here only covers the basics, the header file for this class is small and heavily commented if you want to know more because you're heavily customizing OSCInPort.
+*/
 @interface OSCInPort : NSObject {
 	BOOL					deleted;	//	whether or not i'm deleted- ensures that socket gets closed
 	BOOL					bound;		//	whether or not the socket is bound
@@ -50,21 +55,24 @@
 	int						threadTimerCount;
 	NSAutoreleasePool		*threadPool;
 	
-	NSString				*portLabel;	//	the "name" of the port (added to distinguish multiple osc input ports for bonjour)
+	NSString				*portLabel;		//!<the "name" of the port (added to distinguish multiple osc input ports for bonjour)
 	NSNetService			*zeroConfDest;	//	bonjour service for publishing this input's address...only active if there's a portLabel!
 	
 	NSMutableDictionary		*scratchDict;	//	key of dict is address port; object at key is a mut. array.  coalesced messaging.
 	NSMutableArray			*scratchArray;	//	array of AddressValPair objects.  used for serial messaging.
-	id						delegate;	//	my delegate gets notified of incoming messages
+	id						delegate;	//!<my delegate gets notified of incoming messages
 }
 
+///	Creates and returns an auto-released OSCInPort for the given port (or nil if the port's busy)
 + (id) createWithPort:(unsigned short)p;
+///	Creates and returns an auto-released OSCInPort for the given port and label (or nil if the port's busy)
 + (id) createWithPort:(unsigned short)p labelled:(NSString *)n;
 - (id) initWithPort:(unsigned short)p;
 - (id) initWithPort:(unsigned short)p labelled:(NSString *)n;
 
 - (void) prepareToBeDeleted;
 
+///	returns an auto-released NSDictionary which describes this port (useful for restoring the state of the port later)
 - (NSDictionary *) createSnapshot;
 
 - (BOOL) createSocket;
@@ -74,8 +82,9 @@
 - (void) OSCThreadProc:(NSTimer *)t;
 - (void) parseRawBuffer:(unsigned char *)b ofMaxLength:(int)l;
 
-//	if the delegate im
+///	called internally by this OSCInPort, passed a dict with the coalesced osc updates
 - (void) handleParsedScratchDict:(NSDictionary *)d;
+///	called internally by this OSCInPort, passed an array of AddressValPair objects corresponding to the serially received data
 - (void) handleScratchArray:(NSArray *)a;
 
 - (void) addValue:(id)val toAddressPath:(NSString *)p;
@@ -87,7 +96,9 @@
 - (NSNetService *) zeroConfDest;
 - (BOOL) bound;
 
+///	returns the delegate (default is the OSCManager which created me).
 - (id) delegate;
+///	sets the delegate- the delegate is NOT retained!
 - (void) setDelegate:(id)n;
 
 @end

@@ -56,6 +56,22 @@
 		return nil;
 	return [returnMe autorelease];
 }
++ (id) createWithElement:(id)n	{
+	OSCBundle		*returnMe = [[OSCBundle alloc] init];
+	if (returnMe == nil)
+		return nil;
+	if (n != nil)
+		[returnMe addElement:n];
+	return [returnMe autorelease];
+}
++ (id) createWithElementArray:(id)a	{
+	OSCBundle		*returnMe = [[OSCBundle alloc] init];
+	if (returnMe == nil)
+		return nil;
+	if (a != nil)
+		[returnMe addElementArray:a];
+	return [returnMe autorelease];
+}
 - (id) init	{
 	self = [super init];
 	elementArray = [[NSMutableArray arrayWithCapacity:0] retain];

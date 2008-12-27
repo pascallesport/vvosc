@@ -216,7 +216,7 @@
 	//	figure out if there are any open file descriptors
 	readyFileCount = select(sock+1, &readFileDescriptor, (fd_set *)NULL, (fd_set *)NULL, &timeout);
 	if (readyFileCount < 0)	{	//	if there was an error, bail immediately
-		NSLog(@"\t\terr: socked got closed unexpectedly");
+		NSLog(@"\t\terr: socket got closed unexpectedly");
 		[self stop];
 		if (threadTimer != nil)	{
 			[threadTimer invalidate];
@@ -277,8 +277,8 @@
 			[scratchArray removeAllObjects];
 		pthread_mutex_unlock(&lock);
 		
-		[self handleParsedScratchDict:tmpDict];
 		[self handleScratchArray:tmpArray];
+		[self handleParsedScratchDict:tmpDict];
 	}
 	
 	//	bump the threadTimercount, drain the autorelease pool periodically
@@ -297,15 +297,17 @@
 		ofMaxLength:l
 		toInPort:self];
 }
-/*
-	these methods exists so subclasses of me can subclass around this and handle the parsed
-	contents of the scratch dict however they like
+/*!
+	if you don't want to bother with delegates (or you're not using OSCManager), you can override this method in your subclass of OSCInPort to receive the coalesced osc data (the passed dict contains an array of objects).  by default, this method just calls "oscMessageReceived:" with the in port's delegate.
 */
 - (void) handleParsedScratchDict:(NSDictionary *)d	{
 	//NSLog(@"OSCInPort:handleParsedScratchDict: ... %@",d);
 	if ((delegate != nil) && ([delegate respondsToSelector:@selector(oscMessageReceived:)]))
 		[delegate oscMessageReceived:d];
 }
+/*!
+	if you don't want to bother with delegates (or you're not using OSCManager), you can override this method in your subclass of OSCInPort to receive an array of AddressValPair objects.  by default, this method just calls "receivedOSCVal:forAddress:" with the in port's delegate for each of the items in the passed array.
+*/
 - (void) handleScratchArray:(NSArray *)a	{
 	//NSLog(@"OSCInPort:handleScratchArray: ... %@",a);
 	if ((delegate != nil) && ([delegate respondsToSelector:@selector(receivedOSCVal:forAddress:)]))	{
@@ -317,7 +319,7 @@
 	}
 }
 /*
-	these methods exist so received messages can be added to my scratch dict and scratch array for output
+	this method exists so received messages can be added to my scratch dict and scratch array for output.  you should never need to call this method!
 */
 - (void) addValue:(id)val toAddressPath:(NSString *)p	{
 	//NSLog(@"OSCInPort:addValue:toAddressPath: ... %@ : %@",p,val);

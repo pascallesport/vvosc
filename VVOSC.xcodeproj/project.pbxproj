@@ -31,9 +31,9 @@
 			name = ALL;
 			productName = ALL;
 		};
-		96EA49330EFAA91400AB3763 /* Assemble VVOSC SDK */ = {
+		96EA49330EFAA91400AB3763 /* Compile VVOSC SDK */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 96EA49370EFAA91E00AB3763 /* Build configuration list for PBXAggregateTarget "Assemble VVOSC SDK" */;
+			buildConfigurationList = 96EA49370EFAA91E00AB3763 /* Build configuration list for PBXAggregateTarget "Compile VVOSC SDK" */;
 			buildPhases = (
 				96EA49320EFAA91400AB3763 /* ShellScript */,
 			);
@@ -43,7 +43,7 @@
 				96EF82DC0EFAB4A700E8AF16 /* PBXTargetDependency */,
 				96A059E30EFAD06500E82377 /* PBXTargetDependency */,
 			);
-			name = "Assemble VVOSC SDK";
+			name = "Compile VVOSC SDK";
 			productName = "Assemble Frameworks";
 		};
 /* End PBXAggregateTarget section */
@@ -585,7 +585,7 @@
 			targets = (
 				963E71CF0E993BB9007CF9D8 /* VVOSCTester */,
 				8DC2EF4F0486A6940098B216 /* VVOSC framework */,
-				96EA49330EFAA91400AB3763 /* Assemble VVOSC SDK */,
+				96EA49330EFAA91400AB3763 /* Compile VVOSC SDK */,
 				962BCA060EFAE639006C3EFA /* Install VVOSC SDK */,
 				96EB122B0EFAA64300B2D581 /* VVOSC-iPhone sim */,
 				967FDE3B0EFAA6A600BCF87E /* VVOSC-iPhone dev */,
@@ -724,7 +724,7 @@
 /* Begin PBXTargetDependency section */
 		962BCA140EFAE644006C3EFA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 96EA49330EFAA91400AB3763 /* Assemble VVOSC SDK */;
+			target = 96EA49330EFAA91400AB3763 /* Compile VVOSC SDK */;
 			targetProxy = 962BCA130EFAE644006C3EFA /* PBXContainerItemProxy */;
 		};
 		963059C70F03306900517B22 /* PBXTargetDependency */ = {
@@ -1123,7 +1123,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		96EA49370EFAA91E00AB3763 /* Build configuration list for PBXAggregateTarget "Assemble VVOSC SDK" */ = {
+		96EA49370EFAA91E00AB3763 /* Build configuration list for PBXAggregateTarget "Compile VVOSC SDK" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				96EA49340EFAA91400AB3763 /* Debug */,
