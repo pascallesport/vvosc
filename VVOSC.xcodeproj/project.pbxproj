@@ -54,7 +54,7 @@
 		9609B8140E993EBF0095836C /* VVOSC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* VVOSC.framework */; };
 		9609B8530E9940940095836C /* VVOSC.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* VVOSC.framework */; };
 		9612139B0EF1D97D00F21DD9 /* AddressValPair.h in Headers */ = {isa = PBXBuildFile; fileRef = 961213990EF1D97D00F21DD9 /* AddressValPair.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9612139C0EF1D97D00F21DD9 /* AddressValPair.m in Sources */ = {isa = PBXBuildFile; fileRef = 9612139A0EF1D97D00F21DD9 /* AddressValPair.m */; };
+		9612139C0EF1D97D00F21DD9 /* AddressValpair.m in Sources */ = {isa = PBXBuildFile; fileRef = 9612139A0EF1D97D00F21DD9 /* AddressValpair.m */; };
 		9612C1910EEF81FC00BAD514 /* OSCZeroConfManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9612C18D0EEF81FC00BAD514 /* OSCZeroConfManager.m */; };
 		9612C1920EEF81FC00BAD514 /* OSCZeroConfDomain.m in Sources */ = {isa = PBXBuildFile; fileRef = 9612C18E0EEF81FC00BAD514 /* OSCZeroConfDomain.m */; };
 		9612C1930EEF81FC00BAD514 /* OSCZeroConfManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 9612C18F0EEF81FC00BAD514 /* OSCZeroConfManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -80,7 +80,7 @@
 		964687E40E884F4E00CCC231 /* OSCMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 964687D80E884F4E00CCC231 /* OSCMessage.m */; };
 		9653921A0E85F60E00A719BF /* VVOSC.h in Headers */ = {isa = PBXBuildFile; fileRef = 965392190E85F60E00A719BF /* VVOSC.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		967FDE440EFAA6AE00BCF87E /* AddressValPair.h in Headers */ = {isa = PBXBuildFile; fileRef = 961213990EF1D97D00F21DD9 /* AddressValPair.h */; };
-		967FDE450EFAA6AF00BCF87E /* AddressValPair.m in Sources */ = {isa = PBXBuildFile; fileRef = 9612139A0EF1D97D00F21DD9 /* AddressValPair.m */; };
+		967FDE450EFAA6AF00BCF87E /* AddressValpair.m in Sources */ = {isa = PBXBuildFile; fileRef = 9612139A0EF1D97D00F21DD9 /* AddressValpair.m */; };
 		967FDE460EFAA6AF00BCF87E /* OSCBundle.h in Headers */ = {isa = PBXBuildFile; fileRef = 964687D40E884F4E00CCC231 /* OSCBundle.h */; };
 		967FDE470EFAA6B000BCF87E /* OSCBundle.m in Sources */ = {isa = PBXBuildFile; fileRef = 964687D50E884F4E00CCC231 /* OSCBundle.m */; };
 		967FDE480EFAA6B000BCF87E /* OSCInPort.h in Headers */ = {isa = PBXBuildFile; fileRef = 964687CF0E884F4E00CCC231 /* OSCInPort.h */; };
@@ -99,7 +99,7 @@
 		967FDE550EFAA6B500BCF87E /* OSCZeroConfManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9612C18D0EEF81FC00BAD514 /* OSCZeroConfManager.m */; };
 		967FDE560EFAA6B600BCF87E /* VVOSC.h in Headers */ = {isa = PBXBuildFile; fileRef = 965392190E85F60E00A719BF /* VVOSC.h */; };
 		96A059CD0EFACE1A00E82377 /* AddressValPair.h in Headers */ = {isa = PBXBuildFile; fileRef = 961213990EF1D97D00F21DD9 /* AddressValPair.h */; };
-		96A059CE0EFACE1B00E82377 /* AddressValPair.m in Sources */ = {isa = PBXBuildFile; fileRef = 9612139A0EF1D97D00F21DD9 /* AddressValPair.m */; };
+		96A059CE0EFACE1B00E82377 /* AddressValpair.m in Sources */ = {isa = PBXBuildFile; fileRef = 9612139A0EF1D97D00F21DD9 /* AddressValpair.m */; };
 		96A059CF0EFACE1B00E82377 /* OSCBundle.h in Headers */ = {isa = PBXBuildFile; fileRef = 964687D40E884F4E00CCC231 /* OSCBundle.h */; };
 		96A059D00EFACE1E00E82377 /* OSCBundle.m in Sources */ = {isa = PBXBuildFile; fileRef = 964687D50E884F4E00CCC231 /* OSCBundle.m */; };
 		96A059D10EFACE1F00E82377 /* OSCInPort.h in Headers */ = {isa = PBXBuildFile; fileRef = 964687CF0E884F4E00CCC231 /* OSCInPort.h */; };
@@ -118,7 +118,7 @@
 		96A059DE0EFACE2500E82377 /* OSCZeroConfManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9612C18D0EEF81FC00BAD514 /* OSCZeroConfManager.m */; };
 		96A059DF0EFACE2500E82377 /* VVOSC.h in Headers */ = {isa = PBXBuildFile; fileRef = 965392190E85F60E00A719BF /* VVOSC.h */; };
 		96EB12300EFAA65500B2D581 /* AddressValPair.h in Headers */ = {isa = PBXBuildFile; fileRef = 961213990EF1D97D00F21DD9 /* AddressValPair.h */; };
-		96EB12310EFAA65500B2D581 /* AddressValPair.m in Sources */ = {isa = PBXBuildFile; fileRef = 9612139A0EF1D97D00F21DD9 /* AddressValPair.m */; };
+		96EB12310EFAA65500B2D581 /* AddressValpair.m in Sources */ = {isa = PBXBuildFile; fileRef = 9612139A0EF1D97D00F21DD9 /* AddressValpair.m */; };
 		96EB12320EFAA65600B2D581 /* OSCBundle.h in Headers */ = {isa = PBXBuildFile; fileRef = 964687D40E884F4E00CCC231 /* OSCBundle.h */; };
 		96EB12330EFAA65600B2D581 /* OSCBundle.m in Sources */ = {isa = PBXBuildFile; fileRef = 964687D50E884F4E00CCC231 /* OSCBundle.m */; };
 		96EB12340EFAA65700B2D581 /* OSCInPort.h in Headers */ = {isa = PBXBuildFile; fileRef = 964687CF0E884F4E00CCC231 /* OSCInPort.h */; };
@@ -218,37 +218,37 @@
 		32DBCF5E0370ADEE00C91783 /* VVOSC_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VVOSC_Prefix.pch; sourceTree = "<group>"; };
 		8DC2EF5A0486A6940098B216 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8DC2EF5B0486A6940098B216 /* VVOSC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VVOSC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		961213990EF1D97D00F21DD9 /* AddressValPair.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressValPair.h; sourceTree = "<group>"; };
-		9612139A0EF1D97D00F21DD9 /* AddressValPair.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressValPair.m; sourceTree = "<group>"; };
-		9612C18D0EEF81FC00BAD514 /* OSCZeroConfManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSCZeroConfManager.m; sourceTree = "<group>"; };
-		9612C18E0EEF81FC00BAD514 /* OSCZeroConfDomain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSCZeroConfDomain.m; sourceTree = "<group>"; };
-		9612C18F0EEF81FC00BAD514 /* OSCZeroConfManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSCZeroConfManager.h; sourceTree = "<group>"; };
-		9612C1900EEF81FC00BAD514 /* OSCZeroConfDomain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSCZeroConfDomain.h; sourceTree = "<group>"; };
+		961213990EF1D97D00F21DD9 /* AddressValPair.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddressValPair.h; path = FrameworkSrc/AddressValPair.h; sourceTree = "<group>"; };
+		9612139A0EF1D97D00F21DD9 /* AddressValpair.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddressValpair.m; path = FrameworkSrc/AddressValpair.m; sourceTree = "<group>"; };
+		9612C18D0EEF81FC00BAD514 /* OSCZeroConfManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OSCZeroConfManager.m; path = FrameworkSrc/OSCZeroConfManager.m; sourceTree = "<group>"; };
+		9612C18E0EEF81FC00BAD514 /* OSCZeroConfDomain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OSCZeroConfDomain.m; path = FrameworkSrc/OSCZeroConfDomain.m; sourceTree = "<group>"; };
+		9612C18F0EEF81FC00BAD514 /* OSCZeroConfManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OSCZeroConfManager.h; path = FrameworkSrc/OSCZeroConfManager.h; sourceTree = "<group>"; };
+		9612C1900EEF81FC00BAD514 /* OSCZeroConfDomain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OSCZeroConfDomain.h; path = FrameworkSrc/OSCZeroConfDomain.h; sourceTree = "<group>"; };
 		963E71D00E993BB9007CF9D8 /* VVOSCTester.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VVOSCTester.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		963E71D20E993BB9007CF9D8 /* VVOSCTester-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "VVOSCTester-Info.plist"; sourceTree = "<group>"; };
-		964687CD0E884F4E00CCC231 /* OSCOutPort.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSCOutPort.m; sourceTree = "<group>"; };
-		964687CE0E884F4E00CCC231 /* OSCOutPort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSCOutPort.h; sourceTree = "<group>"; };
-		964687CF0E884F4E00CCC231 /* OSCInPort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSCInPort.h; sourceTree = "<group>"; };
-		964687D00E884F4E00CCC231 /* OSCManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSCManager.h; sourceTree = "<group>"; };
-		964687D10E884F4E00CCC231 /* OSCMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSCMessage.h; sourceTree = "<group>"; };
-		964687D20E884F4E00CCC231 /* OSCPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSCPacket.m; sourceTree = "<group>"; };
-		964687D30E884F4E00CCC231 /* OSCInPort.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSCInPort.m; sourceTree = "<group>"; };
-		964687D40E884F4E00CCC231 /* OSCBundle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSCBundle.h; sourceTree = "<group>"; };
-		964687D50E884F4E00CCC231 /* OSCBundle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSCBundle.m; sourceTree = "<group>"; };
-		964687D60E884F4E00CCC231 /* OSCPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSCPacket.h; sourceTree = "<group>"; };
-		964687D70E884F4E00CCC231 /* OSCManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSCManager.m; sourceTree = "<group>"; };
-		964687D80E884F4E00CCC231 /* OSCMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSCMessage.m; sourceTree = "<group>"; };
-		965392010E85C89100A719BF /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		965392040E85C8BA00A719BF /* MainMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
-		965392160E85F5DD00A719BF /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
-		965392170E85F5DD00A719BF /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppController.m; sourceTree = "<group>"; };
-		965392190E85F60E00A719BF /* VVOSC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VVOSC.h; sourceTree = "<group>"; };
+		963E71D20E993BB9007CF9D8 /* VVOSCTester-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "VVOSCTester-Info.plist"; path = "AppSrc/VVOSCTester-Info.plist"; sourceTree = "<group>"; };
+		964687CD0E884F4E00CCC231 /* OSCOutPort.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OSCOutPort.m; path = FrameworkSrc/OSCOutPort.m; sourceTree = "<group>"; };
+		964687CE0E884F4E00CCC231 /* OSCOutPort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OSCOutPort.h; path = FrameworkSrc/OSCOutPort.h; sourceTree = "<group>"; };
+		964687CF0E884F4E00CCC231 /* OSCInPort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OSCInPort.h; path = FrameworkSrc/OSCInPort.h; sourceTree = "<group>"; };
+		964687D00E884F4E00CCC231 /* OSCManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OSCManager.h; path = FrameworkSrc/OSCManager.h; sourceTree = "<group>"; };
+		964687D10E884F4E00CCC231 /* OSCMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OSCMessage.h; path = FrameworkSrc/OSCMessage.h; sourceTree = "<group>"; };
+		964687D20E884F4E00CCC231 /* OSCPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OSCPacket.m; path = FrameworkSrc/OSCPacket.m; sourceTree = "<group>"; };
+		964687D30E884F4E00CCC231 /* OSCInPort.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OSCInPort.m; path = FrameworkSrc/OSCInPort.m; sourceTree = "<group>"; };
+		964687D40E884F4E00CCC231 /* OSCBundle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OSCBundle.h; path = FrameworkSrc/OSCBundle.h; sourceTree = "<group>"; };
+		964687D50E884F4E00CCC231 /* OSCBundle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OSCBundle.m; path = FrameworkSrc/OSCBundle.m; sourceTree = "<group>"; };
+		964687D60E884F4E00CCC231 /* OSCPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OSCPacket.h; path = FrameworkSrc/OSCPacket.h; sourceTree = "<group>"; };
+		964687D70E884F4E00CCC231 /* OSCManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OSCManager.m; path = FrameworkSrc/OSCManager.m; sourceTree = "<group>"; };
+		964687D80E884F4E00CCC231 /* OSCMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OSCMessage.m; path = FrameworkSrc/OSCMessage.m; sourceTree = "<group>"; };
+		965392010E85C89100A719BF /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = AppSrc/main.m; sourceTree = "<group>"; };
+		965392040E85C8BA00A719BF /* MainMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MainMenu.xib; path = AppSrc/MainMenu.xib; sourceTree = "<group>"; };
+		965392160E85F5DD00A719BF /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppController.h; path = AppSrc/AppController.h; sourceTree = "<group>"; };
+		965392170E85F5DD00A719BF /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppController.m; path = AppSrc/AppController.m; sourceTree = "<group>"; };
+		965392190E85F60E00A719BF /* VVOSC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VVOSC.h; path = FrameworkSrc/VVOSC.h; sourceTree = "<group>"; };
 		967FDE3C0EFAA6A600BCF87E /* libVVOSC.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libVVOSC.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		96A059B40EFACDDB00E82377 /* libVVOSC.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libVVOSC.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		96E3DF090E96802000B706F8 /* OSCInPortRetainsRaw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSCInPortRetainsRaw.h; sourceTree = "<group>"; };
-		96E3DF0A0E96802000B706F8 /* OSCInPortRetainsRaw.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSCInPortRetainsRaw.m; sourceTree = "<group>"; };
-		96E3DF0C0E9685F700B706F8 /* MyOSCManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyOSCManager.h; sourceTree = "<group>"; };
-		96E3DF0D0E9685F700B706F8 /* MyOSCManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyOSCManager.m; sourceTree = "<group>"; };
+		96E3DF090E96802000B706F8 /* OSCInPortRetainsRaw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OSCInPortRetainsRaw.h; path = AppSrc/OSCInPortRetainsRaw.h; sourceTree = "<group>"; };
+		96E3DF0A0E96802000B706F8 /* OSCInPortRetainsRaw.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OSCInPortRetainsRaw.m; path = AppSrc/OSCInPortRetainsRaw.m; sourceTree = "<group>"; };
+		96E3DF0C0E9685F700B706F8 /* MyOSCManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyOSCManager.h; path = AppSrc/MyOSCManager.h; sourceTree = "<group>"; };
+		96E3DF0D0E9685F700B706F8 /* MyOSCManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyOSCManager.m; path = AppSrc/MyOSCManager.m; sourceTree = "<group>"; };
 		96EB122C0EFAA64300B2D581 /* libVVOSC.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libVVOSC.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2F7E79907B2D74100F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
@@ -362,7 +362,7 @@
 				9612C1900EEF81FC00BAD514 /* OSCZeroConfDomain.h */,
 				9612C18E0EEF81FC00BAD514 /* OSCZeroConfDomain.m */,
 				961213990EF1D97D00F21DD9 /* AddressValPair.h */,
-				9612139A0EF1D97D00F21DD9 /* AddressValPair.m */,
+				9612139A0EF1D97D00F21DD9 /* AddressValpair.m */,
 			);
 			name = Framework;
 			sourceTree = "<group>";
@@ -656,7 +656,7 @@
 				964687E40E884F4E00CCC231 /* OSCMessage.m in Sources */,
 				9612C1910EEF81FC00BAD514 /* OSCZeroConfManager.m in Sources */,
 				9612C1920EEF81FC00BAD514 /* OSCZeroConfDomain.m in Sources */,
-				9612139C0EF1D97D00F21DD9 /* AddressValPair.m in Sources */,
+				9612139C0EF1D97D00F21DD9 /* AddressValpair.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -675,7 +675,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				967FDE450EFAA6AF00BCF87E /* AddressValPair.m in Sources */,
+				967FDE450EFAA6AF00BCF87E /* AddressValpair.m in Sources */,
 				967FDE470EFAA6B000BCF87E /* OSCBundle.m in Sources */,
 				967FDE490EFAA6B000BCF87E /* OSCInPort.m in Sources */,
 				967FDE4B0EFAA6B100BCF87E /* OSCManager.m in Sources */,
@@ -691,7 +691,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				96A059CE0EFACE1B00E82377 /* AddressValPair.m in Sources */,
+				96A059CE0EFACE1B00E82377 /* AddressValpair.m in Sources */,
 				96A059D00EFACE1E00E82377 /* OSCBundle.m in Sources */,
 				96A059D20EFACE1F00E82377 /* OSCInPort.m in Sources */,
 				96A059D40EFACE2000E82377 /* OSCManager.m in Sources */,
@@ -707,7 +707,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				96EB12310EFAA65500B2D581 /* AddressValPair.m in Sources */,
+				96EB12310EFAA65500B2D581 /* AddressValpair.m in Sources */,
 				96EB12330EFAA65600B2D581 /* OSCBundle.m in Sources */,
 				96EB12350EFAA65700B2D581 /* OSCInPort.m in Sources */,
 				96EB12370EFAA65800B2D581 /* OSCManager.m in Sources */,
