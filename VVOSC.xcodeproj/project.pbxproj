@@ -225,7 +225,7 @@
 		9612C18F0EEF81FC00BAD514 /* OSCZeroConfManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OSCZeroConfManager.h; path = FrameworkSrc/OSCZeroConfManager.h; sourceTree = "<group>"; };
 		9612C1900EEF81FC00BAD514 /* OSCZeroConfDomain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OSCZeroConfDomain.h; path = FrameworkSrc/OSCZeroConfDomain.h; sourceTree = "<group>"; };
 		963E71D00E993BB9007CF9D8 /* VVOSCTester.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VVOSCTester.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		963E71D20E993BB9007CF9D8 /* VVOSCTester-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "VVOSCTester-Info.plist"; path = "AppSrc/VVOSCTester-Info.plist"; sourceTree = "<group>"; };
+		963E71D20E993BB9007CF9D8 /* VVOSCTester-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "VVOSCTester-Info.plist"; sourceTree = "<group>"; };
 		964687CD0E884F4E00CCC231 /* OSCOutPort.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OSCOutPort.m; path = FrameworkSrc/OSCOutPort.m; sourceTree = "<group>"; };
 		964687CE0E884F4E00CCC231 /* OSCOutPort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OSCOutPort.h; path = FrameworkSrc/OSCOutPort.h; sourceTree = "<group>"; };
 		964687CF0E884F4E00CCC231 /* OSCInPort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OSCInPort.h; path = FrameworkSrc/OSCInPort.h; sourceTree = "<group>"; };
