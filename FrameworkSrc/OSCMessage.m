@@ -99,7 +99,8 @@
 				tmpLong = 0;
 				for(j=0; j<4; ++j)	{
 					tmpInt = b[tmpIndex+j];
-					tmpLong = tmpLong | (tmpInt << ((3-j)*8));
+					//tmpLong = tmpLong | (tmpInt << ((3-j)*8));
+					tmpLong = tmpLong | (tmpInt << (j*8));
 				}
 				tmpInt = ntohl(tmpLong);
 				[p addValue:[NSNumber numberWithInt:tmpInt] toAddressPath:address];
@@ -384,8 +385,7 @@
 				tmpLong = htonl(tmpLong);
 				
 				for (j=0; j<4; ++j)	{
-					tmpChar = 255 & (tmpLong >> ((3-j)*8));
-					b[writeOffset+j] = 255 & (tmpLong >> ((3-j)*8));
+					b[writeOffset+j] = 255 & (tmpLong >> (j*8));
 				}
 				
 				writeOffset = writeOffset + 4;
